@@ -1,13 +1,37 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-            a { text-decoration: none; }
-        </style>
+    
+        <link rel="stylesheet" href="webapp.css">
+        
     </head>
-<body>
-    <h1>Hello World</h1>
-    <p>I'm hosted with GitHub Pages.</p>
-    <a href=https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=FL71_pCD7CkU3qqABS1NRIvA> Blip </a>
+<body>    
+
+    <p id="text">Try to press the<a href=https://www.youtube.com/watch?v=dQw4w9WgXcQ target="_blank" > Button </a> </p>
+    
+    <button id="button" type="button" onclick="changeColor()" onmouseover="changePosition()">Click me!</button>
+    
+    <p id="ausgabe"><p>
+<script>
+function changeColor() {
+    document.getElementById('button').style.color = 'red';
+    document.getElementById('ausgabe').textContent = "GG";
+}
+
+function getRandomPosition(element) {
+	var y = window.innerHeight-element.clientHeight;
+	var x = window.innerWidth-element.clientWidth;
+	var randomX = Math.floor(Math.random()*x);
+	var randomY = Math.floor(Math.random()*y);
+	return [randomX,randomY];
+}
+
+function changePosition() {
+    var xy = getRandomPosition(document.getElementById('button')); 
+    document.getElementById("button").style.left = xy[0] + 'px';
+    document.getElementById("button").style.top = xy[1] + 'px';    
+}
+</script>
+  
 </body>
 </html>
