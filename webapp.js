@@ -15,7 +15,7 @@ function win() {
 function lose() { 
     document.getElementById('ausgabe').textContent = "You lose!";   
     document.getElementById('ausgabe').style.color = "red";  
-    document.getElementById('buttonGame').style.display = "none";
+    document.getElementById('buttonGame2').style.display = "none";
 }
 
 function getRandomPosition(element) {
@@ -27,9 +27,9 @@ function getRandomPosition(element) {
 }
 
 function changePosition() {
-    var xy = getRandomPosition(document.getElementById('buttonGame')); 
-    document.getElementById('buttonGame').style.left = xy[0] + 'px';
-    document.getElementById('buttonGame').style.top = xy[1] + 'px';    
+    var xy = getRandomPosition(document.getElementById('buttonGame1')); 
+    document.getElementById('buttonGame1').style.left = xy[0] + 'px';
+    document.getElementById('buttonGame1').style.top = xy[1] + 'px';    
 }
 
 function getName() {
@@ -56,8 +56,8 @@ function getName() {
                   (doc && doc.clientTop  || body && body.clientTop  || 0 );
             }
 
-            document.getElementById('buttonGame').style.left = (event.pageX - (document.getElementById('buttonGame').clientWidth / 2)) + 'px';
-            document.getElementById('buttonGame').style.top = (event.pageY - (document.getElementById('buttonGame').clientHeight / 2)) + 'px'; 
+            document.getElementById('buttonGame2').style.left = (event.pageX - (document.getElementById('buttonGame2').clientWidth / 2)) + 'px';
+            document.getElementById('buttonGame2').style.top = (event.pageY - (document.getElementById('buttonGame2').clientHeight / 2)) + 'px'; 
         }    
      }
 })();

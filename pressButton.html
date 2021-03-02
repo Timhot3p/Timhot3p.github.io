@@ -12,20 +12,19 @@
             if (window.DeviceOrientationEvent) {
                 window.addEventListener('deviceorientation', handleOrientation);     
 
-                function handleOrientation(event) {
-                  if ((window.DeviceOrientationEvent) && (window.location.pathname.split('/').pop() == 'pressButton.html')) {      
-                      var b = event.beta;
-                      var c = event.gamma;
-                      
-                      b = b + 180;
-                      c = c + 90:
+                function handleOrientation(event) {                  
+                  var b = event.beta;
+                  var c = event.gamma;
+                 
+                  b = b + 180;
+                  c = c + 90:
 
-                      b = (b / 360) * window.innerHeight;
-                      c = (c / 180) * window.innerWidth;
-
-                      document.getElementById('buttonGame').style.top = b + 'px';
-                      document.getElementById('buttonGame').style.left = c + 'px'; 
-                  }
+                  b = (b / 360) * window.innerHeight;
+                  c = (c / 180) * window.innerWidth;
+                    document.getElementById('ausgabe2').textContent = "b: " + b;
+                    document.getElementById('ausgabe3').textContent = "c: " + c;
+                  document.getElementById('buttonGame1').style.top = b + 'px';
+                  document.getElementById('buttonGame1').style.left = c + 'px';               
                 }                
             } 
         </script>
@@ -57,7 +56,7 @@
 
         <p id="text">Try to press the <a id="hidden" onclick="win()" target="_blank" >Button</a>!</p>
         
-        <button id="buttonGame" type="button" onclick="win()" onmouseover="changePosition()">Click me!</button>
+        <button id="buttonGame1" type="button" onclick="win()" onmouseover="changePosition()">Click me!</button>
         
         <p id="ausgabe"><p>
         
@@ -67,9 +66,11 @@
 
         <p id="text">Try to press the <a id="hidden" onclick="win()" target="_blank" >Button</a>!</p>
         
-        <button id="buttonGame" type="button" onclick="win()">Click me!</button>
+        <button id="buttonGame1" type="button" onclick="win()">Click me!</button>
         
         <p id="ausgabe"><p>
+        <p id="ausgabe2"><p>
+        <p id="ausgabe3"><p>
         
     </div> 
     
