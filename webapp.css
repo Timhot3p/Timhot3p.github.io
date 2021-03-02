@@ -7,14 +7,18 @@
     font-size: 2vw;
     }
 .mobile {
-    display: none;
-    font-size: 3vh;
+    display: none;   
     }
 
 @media (hover:none), (hover:on-demand) {
 
-.desktop {display: none;}
-.mobile {display: flex;}
+.desktop {
+    display: none;
+    }
+.mobile {
+    display: flex;
+    font-size: 3vw;
+    }
 
 }
 
