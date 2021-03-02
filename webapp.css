@@ -23,7 +23,10 @@
 
 }
 
-
+#image {
+    max-width: 100%;
+    height: auto;
+}
 /* Style the navigation menu */
 #mobileMenu {
   overflow: hidden;
@@ -71,7 +74,7 @@
 
 #buttonGame {
     position: absolute;
-    display: inline-block;
+    display: block;
     padding: 15px 25px;
     text-align: center;
     color: white;
