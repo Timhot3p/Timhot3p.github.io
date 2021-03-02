@@ -4,11 +4,11 @@
     
 .desktop {
     display: block;
-    font-size: 2vw
+    font-size: 2vw;
     }
 .mobile {
     display: none;
-    font-size: 3vw
+    font-size: 3vh;
     }
 
 @media (hover:none), (hover:on-demand) {
