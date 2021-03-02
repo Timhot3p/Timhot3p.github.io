@@ -45,16 +45,15 @@ function handleOrientation(event) {
    var txt3 = "c= " + String(c);
    document.getElementById('ausgabe2').textContent = txt2;
    document.getElementById('ausgabe3').textContent = txt3;
- /*
-  b = b + 180;
-  c = c + 90:
+ 
+  b = b + 90;
+  c = c + 90;
 
-  b = (b / 360) * window.innerHeight;
+  b = (b / 180) * window.innerHeight;
   c = (c / 180) * window.innerWidth;
-  document.getElementById('ausgabe2').textContent = "b= ";
-  document.getElementById('ausgabe3').textContent = "c= ";
+  
   document.getElementById('buttonGame1').style.top = b + 'px';
-  document.getElementById('buttonGame1').style.left = c + 'px';  */             
+  document.getElementById('buttonGame1').style.left = c + 'px';            
 }  
                 
 (function() {    
