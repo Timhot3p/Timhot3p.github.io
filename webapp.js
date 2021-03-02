@@ -35,6 +35,23 @@ function changePosition() {
 function getName() {
     document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
 }
+
+function handleOrientation(event) {    
+   document.getElementById('ausgabe2').textContent = "b= ";
+   document.getElementById('ausgabe3').textContent = "c= ";
+  /*var b = event.beta;
+  var c = event.gamma;
+ 
+  b = b + 180;
+  c = c + 90:
+
+  b = (b / 360) * window.innerHeight;
+  c = (c / 180) * window.innerWidth;
+  document.getElementById('ausgabe2').textContent = "b= ";
+  document.getElementById('ausgabe3').textContent = "c= ";
+  document.getElementById('buttonGame1').style.top = b + 'px';
+  document.getElementById('buttonGame1').style.left = c + 'px';  */             
+}  
                 
 (function() {    
      if (window.location.pathname.split('/').pop() == 'dontPress.html') {        
