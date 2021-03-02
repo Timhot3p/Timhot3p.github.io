@@ -1,6 +1,9 @@
-function gege() {
-    document.getElementById('buttonGame').style.color = 'red';
-    document.getElementById('ausgabe').textContent = "GG";
+function win() {   
+    document.getElementById('ausgabe').textContent = "You win!";
+}
+
+function lose() {
+    document.getElementById('ausgabe').textContent = "You lose!";
 }
 
 function getRandomPosition(element) {
@@ -40,8 +43,8 @@ function getName() {
                   (doc && doc.clientTop  || body && body.clientTop  || 0 );
             }
 
-            document.getElementById('buttonGame').style.left = event.pageX + 'px';
-            document.getElementById('buttonGame').style.top = event.pageY + 'px'; 
+            document.getElementById('buttonGame').style.left = (event.pageX - (document.getElementById('buttonGame').clientWidth / 2)) + 'px';
+            document.getElementById('buttonGame').style.top = (event.pageY - (document.getElementById('buttonGame').clientHeight / 2)) + 'px'; 
         }    
      }
 })();
