@@ -12,7 +12,7 @@
             if (window.DeviceOrientationEvent) {
                 window.addEventListener('deviceorientation', handleOrientation);                             
             } 
-            document.onorientationchange = handleOrientation(event) {                  
+            handleOrientation(event) {                  
               var b = event.beta;
               var c = event.gamma;
              
