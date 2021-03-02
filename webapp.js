@@ -1,9 +1,12 @@
+var lost = false;
+
 function win() {   
     document.getElementById('ausgabe').textContent = "You win!";
 }
 
 function lose() {
     document.getElementById('ausgabe').textContent = "You lose!";
+    lost = true;
 }
 
 function getRandomPosition(element) {
@@ -23,8 +26,9 @@ function changePosition() {
 function getName() {
     document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
 }
+
 (function() {
-     if (window.location.pathname.split('/').pop() == 'dontPress.html') {
+     if (!lost && window.location.pathname.split('/').pop() == 'dontPress.html') {        
         document.onmousemove = handleMouseMove;
         function handleMouseMove(event) {
             var eventDoc, doc, body;
