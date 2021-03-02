@@ -40,11 +40,6 @@ function handleOrientation(event) {
    
   var b = event.beta;
   var c = event.gamma;
-  
-  var txt2 = "b= " + String(b);
-   var txt3 = "c= " + String(c);
-   document.getElementById('ausgabe2').textContent = txt2;
-   document.getElementById('ausgabe3').textContent = txt3;
  
   b = b + 90;
   c = c + 90;
@@ -52,6 +47,11 @@ function handleOrientation(event) {
   b = (b / 180) * window.innerHeight;
   c = (c / 180) * window.innerWidth;
   
+   var txt2 = "b= " + String(b);
+   var txt3 = "c= " + String(c);
+   document.getElementById('ausgabe2').textContent = txt2;
+   document.getElementById('ausgabe3').textContent = txt3;
+   
   document.getElementById('buttonGame1').style.top = b + 'px';
   document.getElementById('buttonGame1').style.left = c + 'px';            
 }  
