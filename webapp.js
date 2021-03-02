@@ -34,6 +34,15 @@ function getName() {
     document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
 }
 
+function handleOrientation(event) {
+  var absolute = event.absolute;
+  var a = event.alpha;
+  var b = event.beta;
+  var c = event.gamma;
+  /*document.getElementById("buttonGame")*/
+
+}
+
 (function() {    
      if (window.location.pathname.split('/').pop() == 'dontPress.html') {        
         document.onmousemove = handleMouseMove;
