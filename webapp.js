@@ -35,7 +35,7 @@ function changePosition() {
 function getName() {
     document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
 }
-
+                
 (function() {    
      if (window.location.pathname.split('/').pop() == 'dontPress.html') {        
         document.onmousemove = handleMouseMove;
