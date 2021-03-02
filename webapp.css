@@ -8,6 +8,9 @@
 
 }
 
+.mobile {
+    font-size: 3vh;
+}
 /* Style the navigation menu */
 #mobileMenu {
   overflow: hidden;
