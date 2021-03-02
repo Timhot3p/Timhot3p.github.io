@@ -13,6 +13,7 @@ function win() {
 
 function lose() { 
     document.getElementById('ausgabe').textContent = "You lose!";   
+    document.getElementById('buttonGame').style.display = "none";
 }
 
 function getRandomPosition(element) {
