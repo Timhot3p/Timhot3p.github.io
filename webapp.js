@@ -37,8 +37,10 @@ function getName() {
 }
 
 function handleOrientation(event) {    
-   document.getElementById('ausgabe2').textContent = "b= " + b;
-   document.getElementById('ausgabe3').textContent = "c= " + c;
+   var txt2 = "b= " + String(b);
+   var txt3 = "c= " + String(c);
+   document.getElementById('ausgabe2').textContent = txt2;
+   document.getElementById('ausgabe3').textContent = txt3;
   /*var b = event.beta;
   var c = event.gamma;
  
