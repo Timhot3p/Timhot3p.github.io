@@ -36,14 +36,16 @@ function getName() {
     document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
 }
 
-function handleOrientation(event) {    
-   var txt2 = "b= " + String(b);
+function handleOrientation(event) {   
+   
+  var b = event.beta;
+  var c = event.gamma;
+  
+  var txt2 = "b= " + String(b);
    var txt3 = "c= " + String(c);
    document.getElementById('ausgabe2').textContent = txt2;
    document.getElementById('ausgabe3').textContent = txt3;
-  /*var b = event.beta;
-  var c = event.gamma;
- 
+ /*
   b = b + 180;
   c = c + 90:
 
