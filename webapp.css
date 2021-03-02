@@ -1,5 +1,12 @@
-#button {
+#buttonGame {
     position: absolute;
+    display: inline-block;
+    padding: 15px 25px;
+    text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif; 
+    font-weight: bold;
+    background-color: #0B0B61;
 }
 
 #menu #at {
