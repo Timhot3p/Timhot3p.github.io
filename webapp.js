@@ -9,10 +9,12 @@ function openMenu() {
 
 function win() {   
     document.getElementById('ausgabe').textContent = "You win!";
+    document.getElementById('ausgabe').style.color = "green";  
 }
 
 function lose() { 
     document.getElementById('ausgabe').textContent = "You lose!";   
+    document.getElementById('ausgabe').style.color = "red";  
     document.getElementById('buttonGame').style.display = "none";
 }
 
@@ -32,15 +34,6 @@ function changePosition() {
 
 function getName() {
     document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
-}
-
-function handleOrientation(event) {
-  var absolute = event.absolute;
-  var a = event.alpha;
-  var b = event.beta;
-  var c = event.gamma;
-  /*document.getElementById("buttonGame")*/
-
 }
 
 (function() {    

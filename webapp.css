@@ -30,7 +30,7 @@
     max-width: 100%;
     height: auto;
 }
-/* Style the navigation menu */
+
 #mobileMenu {
   overflow: hidden;
   background-color: #424242;
@@ -39,12 +39,10 @@
   justify-content: space-evenly; 
 }
 
-/* Hide the links inside the navigation menu (except for logo/home) */
 #mobileMenu  #myLinks {
   display: none;
 }
 
-/* Style navigation menu links */
 #mobileMenu  a {
   color: white;
   padding: 14px 16px;
@@ -60,7 +58,6 @@
   top: 0;
 }
 
-/* Add a grey background color on mouse-over */
 #mobileMenu  a:hover {
   background-color: #084B8A;
 }
@@ -79,6 +76,8 @@
     position: absolute;
     display: block;
     padding: 15px 25px;
+    left: 50%;
+    top: 50%;
     text-align: center;
     color: white;
     font-family: Arial, Helvetica, sans-serif; 
@@ -107,7 +106,6 @@
         padding: 0px;          
         background-color: #424242;        
     }
-
 
 #menu a {
     display: block;   
