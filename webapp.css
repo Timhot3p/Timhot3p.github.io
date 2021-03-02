@@ -13,8 +13,6 @@
   overflow: hidden;
   background-color: #424242;
   position: relative;
-  display: flex;
-  flex-direction: row;
   justify-content: space-evenly; 
 }
 
