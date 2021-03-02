@@ -1,10 +1,10 @@
-#desktop {display: block;}
-#mobile {display: none;}
+.desktop {display: block;}
+.mobile {display: none;}
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1200px) {
 
-#desktop {display: none;}
-#mobile {display: block;}
+.desktop {display: none;}
+.mobile {display: block;}
 
 }
 
