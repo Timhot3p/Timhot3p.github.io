@@ -44,14 +44,23 @@ function handleOrientation(event) {
   b = b + 90;
   c = c + 90;
 
-  b = (b / 180) * window.clientHeight;
+  /*b = (b / 180) * window.clientHeight;
   c = (c / 180) * window.clientWidth;
   
   b = Math.floor(b);
-  c = Math.floor(c);
+  c = Math.floor(c);*/
   
-   var txt2 = "b= " + String(b);
-   var txt3 = "c= " + String(c);
+  var sh = Math.floor(screen.hight);
+  var sw = Math.floor(screen.width);
+  
+  var wsh = Math.floor(window.screen.availHeigth);
+  var wsw = Math.floor(window.screen.availWidth);
+  
+  var dbw = Math.floor(document.body.clientWidth);
+  var dbh = Math.floor(document.body.clientHeigth);
+  
+   var txt2 = "sh: " + String(sh) + "wsh: " + String(wsh) + "dbh: " + String(dbh);
+   var txt3 = "sw: " + String(sw) + "wsw: " + String(wsw) + "dbw: " + String(dbw);
    document.getElementById('ausgabe2').textContent = txt2;
    document.getElementById('ausgabe3').textContent = txt3;
    
