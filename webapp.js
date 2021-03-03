@@ -47,6 +47,9 @@ function handleOrientation(event) {
   b = (b / 180) * window.innerHeight;
   c = (c / 180) * window.innerWidth;
   
+  b = Math.floor(b);
+  c = Math.floor(c);
+  
    var txt2 = "b= " + String(b);
    var txt3 = "c= " + String(c);
    document.getElementById('ausgabe2').textContent = txt2;
