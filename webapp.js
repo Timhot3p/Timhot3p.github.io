@@ -50,17 +50,20 @@ function handleOrientation(event) {
   b = Math.floor(b);
   c = Math.floor(c);*/
   
-  var sh = Math.floor(screen.hight);
+  var sh = Math.floor(screen.height);
   var sw = Math.floor(screen.width);
   
-  var wsh = Math.floor(window.screen.availHeigth);
+  var wsh = Math.floor(window.screen.availHeight);
   var wsw = Math.floor(window.screen.availWidth);
   
+  var dbh = Math.floor(document.body.clientHeight);
   var dbw = Math.floor(document.body.clientWidth);
-  var dbh = Math.floor(document.body.clientHeigth);
+
+  var wch = Math.floor(window.clientHeight);
+  var wcw = Math.floor(window.clientWidth);   
   
-   var txt2 = "sh: " + String(sh) + "wsh: " + String(wsh) + "dbh: " + String(dbh);
-   var txt3 = "sw: " + String(sw) + "wsw: " + String(wsw) + "dbw: " + String(dbw);
+   var txt2 = "sh: " + String(sh) + "wsh: " + String(wsh) + "dbh: " + String(dbh) + "wch: " + String(wch);
+   var txt3 = "sw: " + String(sw) + "wsw: " + String(wsw) + "dbw: " + String(dbw) + "wcw: " + String(wcw);
    document.getElementById('ausgabe2').textContent = txt2;
    document.getElementById('ausgabe3').textContent = txt3;
    
