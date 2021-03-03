@@ -10,7 +10,8 @@
 <body>  
      <script>	
             if (window.DeviceOrientationEvent) {
-                window.addEventListener('deviceorientation', handleOrientation);                             
+                window.addEventListener('deviceorientation', handleOrientation);  
+                document.getElementById('buttonGame1m').addEventListener('touchstart', win);
             }              
 
         </script>
@@ -54,9 +55,7 @@
         
         <button id="buttonGame1m" class="buttonGame1 type="button" onclick="win()">Click me!</button>
         
-        <p id="ausgabe"><p>
-        <p id="ausgabe2">b: <p>
-        <p id="ausgabe3">c: <p>
+        <p id="ausgabe"><p>      
         
     </div> 
     
