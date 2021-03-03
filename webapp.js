@@ -8,13 +8,19 @@ function openMenu() {
 }
 
 function win() {   
-    document.getElementById('ausgabe').textContent = "You win!";
-    document.getElementById('ausgabe').style.color = "green";  
+    document.getElementById('ausgabe1d').textContent = "You win!";
+    document.getElementById('ausgabe1d').style.color = "green";  
+}
+
+function winm(evt) {   
+    evt.preventDefault();
+    document.getElementById('ausgabe1m').textContent = "You win!";
+    document.getElementById('ausgabe1m').style.color = "green";  
 }
 
 function lose() { 
-    document.getElementById('ausgabe').textContent = "You lose!";   
-    document.getElementById('ausgabe').style.color = "red";  
+    document.getElementById('ausgabe2').textContent = "You lose!";   
+    document.getElementById('ausgabe2').style.color = "red";  
     document.getElementById('buttonGame2').style.display = "none";
 }
 
@@ -30,10 +36,6 @@ function changePosition() {
     var xy = getRandomPosition(document.getElementById('buttonGame1d')); 
     document.getElementById('buttonGame1d').style.left = xy[0] + 'px';
     document.getElementById('buttonGame1d').style.top = xy[1] + 'px';    
-}
-
-function getName() {
-    document.getElementById("ausgabe").textContent = window.location.pathname.split('/').pop;
 }
 
 function handleOrientation(event) {   
