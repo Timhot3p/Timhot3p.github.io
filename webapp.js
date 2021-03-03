@@ -44,8 +44,8 @@ function handleOrientation(event) {
   b = b + 90;
   c = c + 90;
 
-  b = (b / 180) * window.innerHeight;
-  c = (c / 180) * window.innerWidth;
+  b = (b / 180) * window.clientHeight;
+  c = (c / 180) * window.clientWidth;
   
   b = Math.floor(b);
   c = Math.floor(c);
