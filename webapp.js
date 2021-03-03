@@ -59,8 +59,8 @@ function handleOrientation(event) {
   var dbh = Math.floor(document.body.clientHeight);
   var dbw = Math.floor(document.body.clientWidth);
 
-  var wch = Math.floor(window.clientHeight);
-  var wcw = Math.floor(window.clientWidth);   
+  var wch = Math.floor(window.innerHeight);
+  var wcw = Math.floor(window.innerWidth);   
   
    var txt2 = "sh: " + String(sh) + "wsh: " + String(wsh) + "dbh: " + String(dbh) + "wch: " + String(wch);
    var txt3 = "sw: " + String(sw) + "wsw: " + String(wsw) + "dbw: " + String(dbw) + "wcw: " + String(wcw);
