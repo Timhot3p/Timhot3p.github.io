@@ -27,9 +27,9 @@ function getRandomPosition(element) {
 }
 
 function changePosition() {
-    var xy = getRandomPosition(document.getElementById('buttonGame1')); 
-    document.getElementById('buttonGame1').style.left = xy[0] + 'px';
-    document.getElementById('buttonGame1').style.top = xy[1] + 'px';    
+    var xy = getRandomPosition(document.getElementById('buttonGame1d')); 
+    document.getElementById('buttonGame1d').style.left = xy[0] + 'px';
+    document.getElementById('buttonGame1d').style.top = xy[1] + 'px';    
 }
 
 function getName() {
@@ -55,8 +55,8 @@ function handleOrientation(event) {
    document.getElementById('ausgabe2').textContent = txt2;
    document.getElementById('ausgabe3').textContent = txt3;
    
-  document.getElementById('buttonGame1').style.top = b + 'px';
-  document.getElementById('buttonGame1').style.left = c + 'px';            
+  document.getElementById('buttonGame1m').style.top = b + 'px';
+  document.getElementById('buttonGame1m').style.left = c + 'px';            
 }  
                 
 (function() {    
