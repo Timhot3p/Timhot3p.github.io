@@ -1,3 +1,9 @@
+/*
+* {
+    border: 1px solid red;
+}
+*/
+
 body {
     background-color: #333333;
     color: white;
@@ -8,6 +14,7 @@ body {
 #wrapper {
     display:flex;
     width:100%;
+    height:700px;
     border: 1px solid black;
     overflow: hidden;
 }
@@ -27,17 +34,17 @@ body {
 }
 
 #output_log {
-    width:99%;
-    height:78%;
+    width:100%;
+    height:87%;
     background-color: #404040;
     color:white;
     font-size:large;
 }
 
 #calculate {
-    width:200px;
-    height:50px;
-    font-size:large;
+    width:400px;
+    height:100px;
+    font-size:larger;
 }
 
 #dp_start {
@@ -53,17 +60,24 @@ body {
 }
 
 #start_end {
-    margin:50px;
+    margin-top: 50px;
 }
 
 #goal_div {
-    margin:50px;
+    margin-top: 50px;
 }
 
 #calculate_div {
-    margin:50px;
+    margin-top: 100px;
 }
 
 #result_div {
-    margin:50px;
+    margin:100px;
+}
+
+#result_dp_div {
+    
+}
+#result_normal_div {
+    margin-top:10px;
 }
