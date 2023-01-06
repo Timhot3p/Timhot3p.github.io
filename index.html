@@ -7,10 +7,46 @@
         <script src="dungeonpause.js"></script>  
         
     </head>
-<body>    
+    <body>
+
+        <h1 align="center">Dungeonpause Simulator</h1>
+        
       
-   <h1>Dungeonpause Simulator!</h1>
-   <p> (Soon, if i'm not too lazy)</p>
-    
+
+        <div id="wrapper">
+
+            <div id="menu">
+                <h2 align="center">Enter the start and end level of your dungeonpause!</h2>
+
+                <div id="start_end" align="center">
+                    <label for="dp_start">From Level</label>
+                    <input type="number" id="dp_start" min="200" max="700">
+                    <label for="dp_end">to</label>
+                    <input type="number" id="dp_end" min="200" max="700">
+                </div>
+
+                <div id="goal_div" align="center">
+                    <label for="dp_end">Enter the level you want to reach:</label>
+                    <input type="number" id="goal_lvl" min="200" max="700">
+                </div>
+
+                <div id="calculate_div" align="center">
+                    <button id="calculate" onclick="calc()">Calculate</button>
+                </div>
+
+                <div id="result_div" align="center">
+                    <output id="result" name="result">[Result here]</output>
+                </div>
+            </div>
+
+            <div id="output_div">
+                <h2 align="center">Output log</h2>
+                <textarea id="output_log" name="output_log" rows="20" cols="100">Result</textarea>
+            </div>
+            
+
+        </div>
+
+
 </body>
 </html>
