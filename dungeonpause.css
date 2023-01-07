@@ -49,14 +49,17 @@ body {
 
 #dp_start {
     font-size:larger;
+    width:75px;
 }
 
 #dp_end {
     font-size: larger;
+    width: 75px;
 }
 
 #goal_lvl {
     font-size: larger;
+    width: 75px;
 }
 
 #start_end {
@@ -68,16 +71,19 @@ body {
 }
 
 #calculate_div {
-    margin-top: 100px;
+    margin-top: 75px;
 }
 
 #result_div {
-    margin:100px;
+    margin-top:50px;
 }
 
 #result_dp_div {
     
 }
 #result_normal_div {
-    margin-top:10px;
+    margin-top:25px;
+}
+#result_opt_div {
+    margin-top:25px;
 }
