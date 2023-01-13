@@ -4,6 +4,7 @@
 }
 */
 
+
 body {
     background-color: #333333;
     color: white;
@@ -58,6 +59,11 @@ body {
 }
 
 #goal_lvl {
+    font-size: larger;
+    width: 75px;
+}
+
+#current_lvl {
     font-size: larger;
     width: 75px;
 }
