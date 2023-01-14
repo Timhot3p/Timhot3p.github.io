@@ -64,12 +64,12 @@ function getDailyXp(player) {
     var total = getDailyXpThirst(player.level, player.book) + getDailyXpAcademy(player.level) + + getDailyXpArena(player.level) + getDailyXpMission(player.level) + getDailyXpWheel(player.level) + getDailyXpGuildfight(player.level);
 
     if (checkXpEvent(player.age)) {
-        total *= 2;
-        
+        total *= 2;        
     }
 
-    total += getDailyXpCalendar(player.level, player.age)
-
+    total += getDailyXpAdventuromatic(player.level, player.book);
+    total += getDailyXpCalendar(player.level, player.age);
+    
     if ((player.level < player.dpstart) || player.level >= player.dpend) {
         total += getXpDungeon(player);
     }
@@ -80,8 +80,21 @@ function getDailyXp(player) {
 function getDailyXpThirst(level, book) {
     let questFactor = 0.85;
     let smallsegmet = 2.5;
-    let thirst = 340; //estimate including red quests and last beer special quests
-    return thirst * (questFactor/smallsegmet) * getMaxXp(level, book);
+
+    let thirstbase = 320;
+    let bonusred = 10;
+    let bonuslast = 10;
+    let thirst = thirstbase + bonusred + bonuslast;
+
+    return thirst * (questFactor / smallsegmet) * getMaxXp(level, book);    
+}
+
+function getDailyXpAdventuromatic(level, book) {
+    let questFactor = 0.6;
+    let smallsegmet = 2.5;
+    let thirst = 20;
+
+    return thirst * (questFactor / smallsegmet) * getMaxXp(level, book);
 }
 
 //daily xp from arena ignoring events
