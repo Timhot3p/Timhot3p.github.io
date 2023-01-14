@@ -11,7 +11,6 @@
     <body>
 
         <h1 align="center">Dungeonpause Simulator</h1>
-        <p align="center" style="color:red">No logic implemented yet!</p>
       
 
         <div id="wrapper">
@@ -20,19 +19,22 @@
                 <h3 align="center">Enter the start and end level of your dungeonpause:</h3>
 
                 <div id="start_end" align="center">
-                    <label for="dp_start">From Level</label>
-                    <input type="number" id="dp_start" min="200" max="700" value="370">
-                    <label for="dp_end">to</label>
-                    <input type="number" id="dp_end" min="200" max="700" value="470">
+                    <label id="warning" for="dp_start">
+                        All calculations without dungeon xp!  
+                    </label>
+                        <label for="dp_start">From Level</label>
+                        <input type="number" id="dp_start" min="200" max="700" value="0" disabled="disabled">
+                        <label for="dp_end">to</label>
+                        <input type="number" id="dp_end" min="200" max="700" value="700" disabled="disabled">
                 </div>
 
                 <h3 align="center">Enter your current level and the level you want to reach:</h3>
 
                 <div id="goal_div" align="center">
-                   <label for="start_lvl">Current Level:</label>
-                   <input type="number" id="current_lvl" min="200" max="700" value="455">
-                    <label for="goal_lvl">Level you want to reach:</label>
-                    <input type="number" id="goal_lvl" min="200" max="700" value="500">
+                   <label for="start_lvl">Current Level (min 200):</label>
+                   <input type="number" id="current_lvl" min="200" max="700" value="370">
+                    <label for="goal_lvl">Goal Level (max 700):</label>
+                    <input type="number" id="goal_lvl" min="200" max="700" value="470">
                 </div>
 
                 <div id="calculate_div" align="center">
@@ -41,13 +43,13 @@
 
                 <div id="result_div" align="center">
                     <div id="result_dp_div">
-                        <output id="result_dp" name="result_dp">[Result Dp here]</output>
+                        <output id="result_dp" name="result_dp">[Result with specified Dungenpause]</output>
                     </div>
                     <div id="result_normal_div">
-                        <output id="result_normal" name="result_normal">[Result normal here]</output>
+                        <output id="result_normal" name="result_normal">[Result without Dungeonpause]</output>
                     </div>
                     <div id="result_opt_div">
-                        <output id="result_opt" name="result_opt">[Result optimal here]</output>
+                        <output id="result_opt" name="result_opt">[Result with optimal Dungeonpause]</output>
                     </div>
                 </div>
             </div>
