@@ -2,10 +2,26 @@ function calc() {
 
     document.getElementById("output_log").textContent = "";
     
-    let level = document.getElementById("current_lvl").value;
-    let dpstart = document.getElementById("dp_start").value;
+    let dpstart = document.getElementById("dp_start").value;   
     let dpend = document.getElementById("dp_end").value;
+    let level = document.getElementById("current_lvl").value;
     let goallvl = document.getElementById("goal_lvl").value;
+    let book = document.getElementById("scrapbook").value;
+    let calendar = document.getElementById("calendar").checked;
+    let xpevt = document.getElementById("xpevt").checked;
+
+    if (level < 1) {
+        level = 1;
+    }
+    if (goallvl > 800) {
+        goallvl = 800;
+    }
+
+    if (book < 0) {
+        book = 0;
+    } else if (book > 100) {
+        book = 100;
+    }
     
     var player = {       
         level: level,
@@ -14,22 +30,14 @@ function calc() {
         dpstart: dpstart,
         dpend: dpend,
         goallvl: goallvl,
-        book: 96
+        book: book,
+        calendar: calendar,
+        xpevt: xpevt
     }
 
     var daysDp = getDp(player);
     var daysNo = getNoDp(player);
     var daysOpt = getOptDp(player);    
-
-    //document.getElementById("output_log").textContent = "Day 1: Level 25 \n... \nDay X: Level " + document.getElementById("goal_lvl").value;
-    /*document.getElementById("output_log").textContent =
-        "Thirst: " + Math.round(getDailyXpThirst(level)) +
-        "\nDaily Mission (Hydra " + getHydraByLevel(level) + ") : " + Math.round(getDailyXpMission(level)) +
-        "\nAcademy: " + Math.round(getDailyXpAcademy(level)) +
-        "\nArena: " + Math.round(getDailyXpArena(level)) +
-        "\nWheel: " + Math.round(getDailyXpWheel(level)) + 
-        "\nTotal: " + Math.round(getDailyXp(level));
-    */
  
     document.getElementById("result_dp").textContent = "It will take you " + daysDp + " days to reach level " + document.getElementById("goal_lvl").value + ".";
     document.getElementById("result_normal").textContent = "Without dungeonpause it would take you " + daysNo + " days.";
@@ -63,12 +71,15 @@ function checkXpEvent(age) {
 function getDailyXp(player) {
     var total = getDailyXpThirst(player.level, player.book) + getDailyXpAcademy(player.level) + + getDailyXpArena(player.level) + getDailyXpMission(player.level) + getDailyXpWheel(player.level) + getDailyXpGuildfight(player.level);
 
-    if (checkXpEvent(player.age)) {
+    if (player.xpevt && checkXpEvent(player.age)) {
         total *= 2;        
     }
 
     total += getDailyXpAdventuromatic(player.level, player.book);
-    total += getDailyXpCalendar(player.level, player.age);
+
+    if (player.calendar) {
+        total += getDailyXpCalendar(player.level, player.age);
+    }
     
     if ((player.level < player.dpstart) || player.level >= player.dpend) {
         total += getXpDungeon(player);

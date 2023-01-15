@@ -20,21 +20,32 @@
 
                 <div id="start_end" align="center">
                     <label id="warning" for="dp_start">
-                        All calculations without dungeon xp!  
+                        All calculations without dungeon xp!
                     </label>
-                        <label for="dp_start">From Level</label>
-                        <input type="number" id="dp_start" min="200" max="700" value="0" disabled="disabled">
-                        <label for="dp_end">to</label>
-                        <input type="number" id="dp_end" min="200" max="700" value="700" disabled="disabled">
+                    <label for="dp_start">From Level</label>
+                    <input type="number" id="dp_start" min="200" max="700" value="0" disabled="disabled">
+                    <label for="dp_end">to</label>
+                    <input type="number" id="dp_end" min="200" max="700" value="700" disabled="disabled">
                 </div>
 
                 <h3 align="center">Enter your current level and the level you want to reach:</h3>
 
                 <div id="goal_div" align="center">
-                   <label for="start_lvl">Current Level (min 200):</label>
-                   <input type="number" id="current_lvl" min="200" max="700" value="370">
+                    <label for="current_lvl">Current Level (min 200):</label>
+                    <input type="number" id="current_lvl" min="200" max="700" value="370">
                     <label for="goal_lvl">Goal Level (max 700):</label>
                     <input type="number" id="goal_lvl" min="200" max="700" value="470">
+                </div>
+
+                <div id="individualise_div" align="center">
+                    <label for="scrapbook">Scrapbook:</label>
+                    <input type="number" id="scrapbook" min="0" max="100" value="96">
+
+                    <label for="calendar" id="calendar_text">Use Calendar  </label>
+                    <input type="checkbox" id="calendar" checked>
+
+                    <label for="xpevt" id="xpevt_text">Use Xp Events  </label>
+                    <input type="checkbox" id="xpevt" checked>
                 </div>
 
                 <div id="calculate_div" align="center">

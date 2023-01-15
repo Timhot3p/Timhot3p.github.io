@@ -76,8 +76,38 @@ body {
     margin-top: 50px;
 }
 
+#individualise_div {
+    margin-top: 25px;
+    height: 50px;
+}
+
+#scrapbook {
+    font-size: larger;
+    width: 100px;
+    margin-right: 50px;
+}
+
+#calendar_text {
+    vertical-align: middle;
+}
+#calendar {
+    width: 26px;
+    height: 26px;
+    vertical-align: middle;
+    margin-right: 50px;
+}
+
+#xpevt_text {
+    vertical-align: middle;
+}
+
+#xpevt {
+    width: 26px;
+    height: 26px;
+    vertical-align: middle;
+}
 #calculate_div {
-    margin-top: 75px;
+    margin-top: 50px;
 }
 
 #result_div {
