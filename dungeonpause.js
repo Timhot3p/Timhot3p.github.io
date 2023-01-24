@@ -127,6 +127,7 @@ function getDailyXp(player) {
     }
 
     total += getDailyXpAdventuromatic(player.level, player.book);
+    total += getXpPets(player.level, player.age);
 
     if (player.calendarSkip) {
         total += getDailyXpCalendarSkip(player.level, player.age);
@@ -168,7 +169,7 @@ function getDailyXpArena(level) {
 }
 
 //daily xp from calendar considering the day using skip strategy
-function getDailyXpCalendarSkip(level, day) {
+function getDailyXpCalendarSkip(level, day) {    
     switch (day % 88) {
         case 7:
         case 42:
@@ -265,8 +266,13 @@ function getDailyXpWheel(level) {
     return 3 * getBigWheel(level);
 }
 
-//xp of dungeons possible considering a players level, writes to log
+//xp of dungeons possible considering a players level
 function getXpDungeon(level) {
+    return 0;
+}
+
+//xp of pet dungeons possible considering players age, scaled to players level
+function getXpPets(level, age) {
     return 0;
 }
 
