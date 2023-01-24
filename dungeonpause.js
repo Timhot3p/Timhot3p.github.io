@@ -38,7 +38,7 @@ function calc() {
     var daysDp = getDp(player);
     var daysNo = getNoDp(player);
     var daysOpt = getOptDp(player);    
- 
+    
     document.getElementById("result_dp").textContent = "It will take you " + daysDp + " days to reach level " + document.getElementById("goal_lvl").value + ".";
     document.getElementById("result_normal").textContent = "Without dungeonpause it would take you " + daysNo + " days.";
     document.getElementById("result_normal").style.color ="#565656"
@@ -78,7 +78,7 @@ function getDailyXp(player) {
     total += getDailyXpAdventuromatic(player.level, player.book);
 
     if (player.calendar) {
-        total += getDailyXpCalendar(player.level, player.age);
+        total += getDailyXpCalendarSkip(player.level, player.age);
     }
     
     if ((player.level < player.dpstart) || player.level >= player.dpend) {
@@ -89,19 +89,19 @@ function getDailyXp(player) {
 
 //daily xp from thirst ignoring events
 function getDailyXpThirst(level, book) {
-    let questFactor = 0.85;
+    let questFactor = 0.84;
     let smallsegmet = 2.5;
 
     let thirstbase = 320;
-    let bonusred = 10;
-    let bonuslast = 10;
+    let bonusred = 5;
+    let bonuslast = 5;
     let thirst = thirstbase + bonusred + bonuslast;
 
     return thirst * (questFactor / smallsegmet) * getMaxXp(level, book);    
 }
 
 function getDailyXpAdventuromatic(level, book) {
-    let questFactor = 0.6;
+    let questFactor = 0.84;
     let smallsegmet = 2.5;
     let thirst = 20;
 
@@ -113,8 +113,8 @@ function getDailyXpArena(level) {
     return 10 * getArenaXp(level);
 }
 
-//daily xp from calendar considering the day
-function getDailyXpCalendar(level, day) {
+//daily xp from calendar considering the day using skip strategy
+function getDailyXpCalendarSkip(level, day) {
     switch (day % 88) {
         case 7:
         case 42:
@@ -144,6 +144,46 @@ function getDailyXpCalendar(level, day) {
     return 0;
 }
 
+//daily xp from calendar considering the day without using skip strategy
+function getDailyXpCalendarDefault(level, day) {
+    switch (day % 240) {
+        case 25:
+        case 83:
+        case 156:
+        case 184:
+        case 228:
+            return getExperienceRequired(level) / 15;
+
+        case 87:
+        case 157:
+        case 188:
+        case 237:
+            return getExperienceRequired(level) / 10;
+
+        case 99:
+        case 239:
+            return getExperienceRequired(level) / 5;
+
+        case 20:
+        case 40:
+        case 60:
+        case 80:
+        case 100:
+        case 120:
+        case 140:
+        case 160:
+        case 180:
+        case 200:
+        case 220:
+        case 0:
+            return getExperienceRequired(level);
+
+        default:
+            return 0;
+    }
+    return 0;
+}
+
 //Estimates what Hydra you can defeat with which level
 function getHydraByLevel(level) {
     return Math.max(0, Math.floor((level - 300) / 15));
@@ -157,7 +197,7 @@ function getDailyXpMission(level) {
 //daily xp of the guild fight ignoring events
 //very inacurate formula
 function getDailyXpGuildfight(level) {   
-    return (0.697 * getDailyXpArena(level));
+    return (2 * 0.697 * getDailyXpArena(level));
 }
 
 //daily xp of academy ignoring events
