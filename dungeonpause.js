@@ -11,6 +11,18 @@ function calc() {
     let calendarNormal = document.getElementById("calendar_normal").checked;
     let xpevt = document.getElementById("xpevt").checked;
 
+    if (dpend < dpstart) {
+        let temp = dpend;
+        dpend = dpstart;
+        dpstart = temp;
+    }
+
+    if (goallvl < level) {
+        var temp = goallvl;
+        goallvl = level;
+        level = temp;
+    }
+
     if (level < 1) {
         level = 1;
     }
@@ -41,10 +53,10 @@ function calc() {
     var daysNo = getNoDp(player);
     var daysOpt = getOptDp(player);    
     
-    document.getElementById("result_dp").textContent = "It will take you " + daysDp + " days to reach level " + document.getElementById("goal_lvl").value + ".";
+    document.getElementById("result_dp").textContent = "It will take you " + daysDp + " days to reach level " + goallvl + ".";
     document.getElementById("result_normal").textContent = "Without dungeonpause it would take you " + daysNo + " days.";
     document.getElementById("result_normal").style.color ="#565656"
-    document.getElementById("result_opt").textContent = "Optimal time to reach level " + document.getElementById("goal_lvl").value + " would be " + daysOpt + " days, by doing a dungeonpause between level A and level B.";
+    document.getElementById("result_opt").textContent = "Optimal time to reach level " + goallvl + " would be " + daysOpt + " days, by doing a dungeonpause between level A and level B.";
     document.getElementById("result_opt").style.color = "#565656"
 }
 
@@ -62,6 +74,7 @@ function disableDungeons() {
     }
 }
 
+//unchecks calendar_skip if calendar_normal is enabled
 function uncheckSkip() {
     var checkBox = document.getElementById("calendar_normal");
     if (checkBox.checked) {
@@ -69,10 +82,18 @@ function uncheckSkip() {
     }
 }
 
+//unchecks calendar_normal if calendar_skip is enabled
 function uncheckNormal() {
     var checkBox = document.getElementById("calendar_skip");
     if (checkBox.checked) {
         document.getElementById("calendar_normal").checked = false;
+    }
+}
+
+function checkMinValue() {
+    var input = document.getElementById("current_lvl");
+    if (input.value < 200) {
+        input.value = 200;
     }
 }
 
@@ -132,6 +153,7 @@ function getDailyXpThirst(level, book) {
     return thirst * (questFactor / smallsegmet) * getMaxXp(level, book);    
 }
 
+//daily xp from 20 thirst in adventuromatic
 function getDailyXpAdventuromatic(level, book) {
     let questFactor = 0.84;
     let smallsegmet = 2.5;
