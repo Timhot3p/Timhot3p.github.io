@@ -7,7 +7,8 @@ function calc() {
     let level = document.getElementById("current_lvl").value;
     let goallvl = document.getElementById("goal_lvl").value;
     let book = document.getElementById("scrapbook").value;
-    let calendar = document.getElementById("calendar").checked;
+    let calendarSkip = document.getElementById("calendar_skip").checked;
+    let calendarNormal = document.getElementById("calendar_normal").checked;
     let xpevt = document.getElementById("xpevt").checked;
 
     if (level < 1) {
@@ -31,7 +32,8 @@ function calc() {
         dpend: dpend,
         goallvl: goallvl,
         book: book,
-        calendar: calendar,
+        calendarSkip: calendarSkip,
+        calendarNormal: calendarNormal,
         xpevt: xpevt
     }
 
@@ -44,6 +46,34 @@ function calc() {
     document.getElementById("result_normal").style.color ="#565656"
     document.getElementById("result_opt").textContent = "Optimal time to reach level " + document.getElementById("goal_lvl").value + " would be " + daysOpt + " days, by doing a dungeonpause between level A and level B.";
     document.getElementById("result_opt").style.color = "#565656"
+}
+
+//disable dungeonpause inputs when "ignore dungeons" is checked
+function disableDungeons() {
+    var checkBox = document.getElementById("ign_dng");
+    if (checkBox.checked) {
+        document.getElementById("dp_start").value = 0;
+        document.getElementById("dp_end").value = 700;
+        document.getElementById("dp_start").disabled = true;
+        document.getElementById("dp_end").disabled = true;
+    } else {
+        document.getElementById("dp_start").disabled = false;
+        document.getElementById("dp_end").disabled = false;
+    }
+}
+
+function uncheckSkip() {
+    var checkBox = document.getElementById("calendar_normal");
+    if (checkBox.checked) {
+        document.getElementById("calendar_skip").checked = false;
+    }
+}
+
+function uncheckNormal() {
+    var checkBox = document.getElementById("calendar_skip");
+    if (checkBox.checked) {
+        document.getElementById("calendar_normal").checked = false;
+    }
 }
 
 //checks if a player lvled up
@@ -77,8 +107,10 @@ function getDailyXp(player) {
 
     total += getDailyXpAdventuromatic(player.level, player.book);
 
-    if (player.calendar) {
+    if (player.calendarSkip) {
         total += getDailyXpCalendarSkip(player.level, player.age);
+    } else if (player.calendarNormal) {
+        total += getDailyXpCalendarNormal(player.level, player.age);
     }
     
     if ((player.level < player.dpstart) || player.level >= player.dpend) {
@@ -145,7 +177,7 @@ function getDailyXpCalendarSkip(level, day) {
 }
 
 //daily xp from calendar considering the day without using skip strategy
-function getDailyXpCalendarDefault(level, day) {
+function getDailyXpCalendarNormal(level, day) {
     switch (day % 240) {
         case 25:
         case 83:

@@ -15,12 +15,12 @@ body {
 #wrapper {
     display:flex;
     width:100%;
-    height:750px;
+    height:100%;
     border: 1px solid black;
     overflow: hidden;
 }
 #menu {
-    width: 50%;
+    width: 80%;
     border: 5px solid #404040;
     justify-content: space-around;
     float: left;
@@ -28,7 +28,7 @@ body {
 }
 
 #output_div {
-    width: 50%;
+    width: 20%;
     border: 5px solid #404040;
     float: right;
     background-color: #1f1f1f;
@@ -76,6 +76,10 @@ body {
     margin-top: 50px;
 }
 
+#ign_dng_text {
+    margin-left: 50px;
+}
+
 #individualise_div {
     margin-top: 25px;
     height: 50px;
@@ -87,24 +91,15 @@ body {
     margin-right: 50px;
 }
 
-#calendar_text {
+.ind_text {
     vertical-align: middle;
 }
-#calendar {
+
+.checkbox {
     width: 26px;
     height: 26px;
     vertical-align: middle;
     margin-right: 50px;
-}
-
-#xpevt_text {
-    vertical-align: middle;
-}
-
-#xpevt {
-    width: 26px;
-    height: 26px;
-    vertical-align: middle;
 }
 #calculate_div {
     margin-top: 50px;
@@ -114,9 +109,9 @@ body {
     margin-top:50px;
 }
 
-#result_dp_div {
-    
+#result_dp_div {    
 }
+
 #result_normal_div {
     margin-top:25px;
 }
