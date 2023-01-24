@@ -281,6 +281,21 @@ function getDp(player) {
     return player.age;
 }
 
+//returns the total remaining xp a player needs to reach their goallvl
+function getRemainungXp(player) {
+    if (player.level >= player.goallvl) {
+        return 0;
+    }
+    
+    let remxp = getExperienceRequired(player.level) - player.xp;
+    let level = player.level + 1;
+    while (level < player.goallvl) {
+        remxp += getExperienceRequired(level);
+        level++;
+    }
+    return remxp;   
+}
+
 //returns the number of days to reach a lvl without dp
 function getNoDp(player) {
     return 0;
