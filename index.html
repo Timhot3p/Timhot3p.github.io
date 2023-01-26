@@ -53,19 +53,27 @@
                     <input type="checkbox" class="checkbox" id="xpevt" checked>
                 </div>
 
-                <div id="calculate_div" align="center">
-                    <button id="calculate" onclick="calc()">Calculate</button>
+                <div id="calculate_div" align="center">    
+                    <div id="calc_button_div" align="center">
+                        <button id="calculate" onclick="calc()">Calculate</button>
+                    </div>
+                     <div id="calc_text_box_div" align="center">
+                         <div id="calc_text_div" align="center">
+                             <label id="calc_text">Calculate optimal dungeonpause <br /><span>(may take a few seconds)</span></label>
+                         </div>
+                         <input type="checkbox" class="checkbox" id="calcopt" checked>
+                     </div>
                 </div>
 
                 <div id="result_div" align="center">
                     <div id="result_dp_div">
-                        <output id="result_dp" name="result_dp">[Result with specified Dungeonpause]</output>
+                        <output id="result_dp" name="result_dp">Result with specified Dungeonpause</output>
                     </div>
                     <div id="result_normal_div">
-                        <output id="result_normal" name="result_normal">[Result without Dungeonpause]</output>
+                        <output id="result_normal" name="result_normal">Result without Dungeonpause</output>
                     </div>
                     <div id="result_opt_div">
-                        <output id="result_opt" name="result_opt">[Result with optimal Dungeonpause]</output>
+                        <output id="result_opt" name="result_opt">Result with optimal Dungeonpause</output>
                     </div>
                 </div>
             </div>
