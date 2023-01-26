@@ -47,7 +47,7 @@ function calc() {
     let daysNo = getDays(playerNo, true);
 
     if (doOpt) {
-        document.getElementById("output_log").textContent += "Optimal Dungeonpause:\n"
+        document.getElementById("output_log").textContent += "Possible Dungeonpauses:\n"
         var result = getOptDp(playerOpt);
     }
     
@@ -352,7 +352,7 @@ function getDays(player, write) {
         doDungeons(player, write);
     }
     if (write) {
-        document.getElementById("output_log").textContent += "\n-----------------------\n\n";
+        document.getElementById("output_log").textContent += "\n-------------------------------------\n\n";
     }
     return player.age;
 }
@@ -397,9 +397,9 @@ function getOptDp(player) {
        tempplayer.dpstart = startlvl;
        tempplayer.dpend = getEndLvl(tempplayer);
        let days = getDays(tempplayer, false);
-       //document.getElementById("output_log").textContent += "Start: " + tempplayer.dpstart + ", End: " + tempplayer.dpend + ", Days: " + days + "\n";
+       document.getElementById("output_log").textContent += tempplayer.dpstart + " - " + tempplayer.dpend + ", " + days + " Days\n";
     
-       if (days < daysopt) {
+       if (days <= daysopt) {
            daysopt = days;
            startopt = tempplayer.dpstart;
            endopt = tempplayer.dpend;
@@ -408,6 +408,7 @@ function getOptDp(player) {
 
     player.dpstart = startopt;
     player.dpend = endopt;
+    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nOptimal: " + startopt + " - " + endopt + " in " + daysopt + " Days:" + "\n";
     getDays(player, true);
 
     return {
