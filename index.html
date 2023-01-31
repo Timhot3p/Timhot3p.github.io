@@ -24,7 +24,7 @@
                     <label for="dp_start">From Level</label>
                     <input type="number" id="dp_start" min="200" max="700" value="370">
                     <label for="dp_end">to</label>
-                    <input type="number" id="dp_end" min="200" max="700" value="470">
+                    <input type="number" id="dp_end" min="200" max="700" value="475">
 
                     <label for="ign_dng" id="ign_dng_text">Ignore Dungeons</label>
                     <input type="checkbox" class="checkbox" id="ign_dng" onclick="disableDungeons()">
@@ -34,14 +34,14 @@
 
                 <div id="goal_div" align="center">
                     <label for="current_lvl" id="current_lvl_text">Current Level:</label>
-                    <input type="number" id="current_lvl" min="200" max="700" value="200">
+                    <input type="number" id="current_lvl" min="1" max="700" value="1">
                     <label for="goal_lvl" id="goal_lvl_text">Goal Level:</label>
                     <input type="number" id="goal_lvl" min="200" max="700" value="500">
                 </div>
 
                 <div id="individualise_div" align="center">
                     <label for="scrapbook" class="ind_text">Scrapbook:</label>
-                    <input type="number" id="scrapbook" min="0" max="100" value="96">
+                    <input type="number" id="scrapbook" min="0" max="100" value="96" disabled="disabled">
 
                     <label for="calendar_skip" class="ind_text" id="calendar_skip_text">Use Calendar-Skip</label>
                     <input type="checkbox" class="checkbox" id="calendar_skip" onclick="uncheckNormal()" checked>

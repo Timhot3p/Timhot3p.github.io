@@ -442,9 +442,9 @@ function getExperienceRequired(value) {
     }
 }
 
-function getMaxXp(level, book) {
+function getMaxXp(level, bookTotal, gxp) {
+    let book = 100 * bookTotal / maxBook;
     let rxp = 10;
-    let gxp = 200;
     var basexp = getExperienceRequired(level) / (1.5 + 0.75 * (level - 1));
     var xpmin = (1 + rxp / 100) * (1 + gxp / 100 + book / 100) * basexp / 11 / Math.max(1, Math.exp(30090.33 / 5000000 * (level - 99)));
     var xpmax = xpmin * 5;

@@ -1,3 +1,6 @@
+const questFactor = 0.84;
+const maxBook = 2283;
+
 function calc() {
 
     document.getElementById("output_log").textContent = "";
@@ -6,11 +9,12 @@ function calc() {
     let dpend = document.getElementById("dp_end").value;
     let level = document.getElementById("current_lvl").value;
     let goallvl = document.getElementById("goal_lvl").value;
-    let book = document.getElementById("scrapbook").value;
+    //let book = document.getElementById("scrapbook").value;
     let calendarSkip = document.getElementById("calendar_skip").checked;
     let calendarNormal = document.getElementById("calendar_normal").checked;
     let xpevt = document.getElementById("xpevt").checked;
     let doOpt = document.getElementById("calcopt").checked;
+    let age = 0;    
 
     if (dpend < dpstart) {
         let temp = dpend;
@@ -22,23 +26,23 @@ function calc() {
         var temp = goallvl;
         goallvl = level;
         level = temp;
-    }
+    }    
 
-    if (level < 1) {
-        level = 1;
-    }
     if (goallvl > 800) {
         goallvl = 800;
     }
 
-    if (book < 0) {
+    let book = maxBook - 300 + scrapbookAtLevel[level];
+
+    /*if (book < 0) {
         book = 0;
     } else if (book > 100) {
         book = 100;
-    }
-    
-    var playerDp = getNewPlayer(level, 0, 0, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
-    var playerNo = getNewPlayer(level, 0, 0, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
+    }    
+    */
+
+    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
+    var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
     var playerOpt = clone(playerNo);
 
     document.getElementById("output_log").textContent += "Custom Dungeonpause:\n"
@@ -159,18 +163,26 @@ function checkMinValue() {
 
 //checks for a xp event based on data from 2022: 4 xp events inside 9 weeks
 function checkXpEvent(age) {
-    return [11,12,13,25,26,27,39,40,41,53,54,55].includes(age % 63);
+    return [15,16,17,29,30,31,43,44,45,57,58,59].includes(age % 63);
 }
 
 //collects all daily xp and adds them together, checks for xp event
-function getDailyXp(player) {
-    var total = getDailyXpThirst(player.level, player.book) + getDailyXpAcademy(player.level) + + getDailyXpArena(player.level) + getDailyXpMission(player.level) + getDailyXpWheel(player.level) + getDailyXpGuildfight(player.level);
+function getDailyXp(player) {    
+    let guildbonus = getGuildXp(player.age);
+
+    var total =
+        getDailyXpThirst(player.level, player.book, guildbonus) +
+        getDailyXpAcademy(player.level) +
+        getDailyXpArena(player.level) +
+        getDailyXpMission(player.level) +
+        getDailyXpWheel(player.level) +
+        getDailyXpGuildfight(player.level);
 
     if (player.xpevt && checkXpEvent(player.age)) {
         total *= 2;        
     }
 
-    total += getDailyXpAdventuromatic(player.level, player.book);
+    total += getDailyXpAdventuromatic(player.level, player.book, guildbonus);
     total += getXpPets(player.level, player.age);
 
     if (player.calendarSkip) {
@@ -183,25 +195,25 @@ function getDailyXp(player) {
 }
 
 //daily xp from thirst ignoring events
-function getDailyXpThirst(level, book) {
-    let questFactor = 0.84;
+function getDailyXpThirst(level, book, guild) {    
     let smallsegmet = 2.5;
-
     let thirstbase = 320;
-    let bonusred = 5;
-    let bonuslast = 5;
+
+    let bonusred = 5;         //estimated bonus thirst for red quests
+    let bonuslast = 5;        //estimated bonus thirst for last beer quests
+
     let thirst = thirstbase + bonusred + bonuslast;
 
-    return thirst * (questFactor / smallsegmet) * getMaxXp(level, book);    
+    return thirst * (questFactor / smallsegmet) * getMaxXp(level, book, guild);    
 }
 
 //daily xp from 20 thirst in adventuromatic
-function getDailyXpAdventuromatic(level, book) {
-    let questFactor = 0.84;
+function getDailyXpAdventuromatic(level, book, guild) {
+    
     let smallsegmet = 2.5;
     let thirst = 20;
 
-    return thirst * (questFactor / smallsegmet) * getMaxXp(level, book);
+    return thirst * (questFactor / smallsegmet) * getMaxXp(level, book, guild);
 }
 
 //daily xp from arena ignoring events
@@ -316,7 +328,8 @@ function doDungeons(player, write) {
         while ((player.level < player.dpstart || player.level >= player.dpend) && player.clearedDungeonsUntil < player.level) {
             player.clearedDungeonsUntil++;
             let xp = dungeonPerLevel[player.clearedDungeonsUntil];
-            player.addXp(xp, write);
+            player.book = maxBook - 300 + scrapbookAtLevel[player.level];          
+            player.addXp(xp, write);            
             dungeonxp += xp;
         }
         return dungeonxp;
@@ -327,6 +340,15 @@ function doDungeons(player, write) {
 //xp of pet dungeons possible considering players age, scaled to players level
 function getXpPets(level, age) {
     return 0;
+}
+
+//returns guild xp bonus based on players age
+function getGuildXp(age) {
+    if (age > 25) {
+        return 200;
+    } else {
+        return 96 + (age * 4);
+    }
 }
 
 //returns the total remaining xp a player needs to reach their goallvl
@@ -346,6 +368,26 @@ function getRemainungXp(player) {
 
 //returns the number of days to reach a players goallvl
 function getDays(player, write) {
+
+    //hardcoded first weekend
+    if (write && player.level < 25) {
+        player.level = 25;
+        player.age++;
+        document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+    }
+    if (write && player.level < 100) {
+        player.level = 100;
+        player.age++;
+        document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+    }
+    if (write && player.level < 200) {
+        player.level = 200;
+        player.age++;
+        player.clearedDungeonsUntil = 199;
+        document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+    }
+
+    //real simulator
     while (player.goallvl > player.level && player.age < 10000) {
         player.age++;
         player.addXp(getDailyXp(player), write);
