@@ -22,9 +22,9 @@
                 <div id="start_end" align="center">
 
                     <label for="dp_start">From Level</label>
-                    <input type="number" id="dp_start" min="200" max="700" value="370">
+                    <input type="number" class="input_field" id="dp_start" min="200" max="800" value="370">
                     <label for="dp_end">to</label>
-                    <input type="number" id="dp_end" min="200" max="700" value="475">
+                    <input type="number" class="input_field" id="dp_end" min="200" max="800" value="475">
 
                     <label for="ign_dng" id="ign_dng_text">Ignore Dungeons</label>
                     <input type="checkbox" class="checkbox" id="ign_dng" onclick="disableDungeons()">
@@ -34,14 +34,14 @@
 
                 <div id="goal_div" align="center">
                     <label for="current_lvl" id="current_lvl_text">Current Level:</label>
-                    <input type="number" id="current_lvl" min="1" max="700" value="1">
+                    <input type="number" class="input_field" id="current_lvl" min="1" max="800" value="1">
                     <label for="goal_lvl" id="goal_lvl_text">Goal Level:</label>
-                    <input type="number" id="goal_lvl" min="200" max="700" value="500">
+                    <input type="number" class="input_field" id="goal_lvl" min="200" max="800" value="500">
                 </div>
 
                 <div id="individualise_div" align="center">
                     <label for="scrapbook" class="ind_text">Scrapbook:</label>
-                    <input type="number" id="scrapbook" min="0" max="100" value="96" disabled="disabled">
+                    <input type="number" class="input_field" id="scrapbook" min="0" max="100" value="96" disabled="disabled">
 
                     <label for="calendar_skip" class="ind_text" id="calendar_skip_text">Use Calendar-Skip</label>
                     <input type="checkbox" class="checkbox" id="calendar_skip" onclick="uncheckNormal()" checked>
@@ -53,16 +53,19 @@
                     <input type="checkbox" class="checkbox" id="xpevt" checked>
                 </div>
 
-                <div id="calculate_div" align="center">    
+                <div id="calculate_div" align="center">
+
+                    <div id="calc_text_box_div" align="center">
+                        <div id="calc_text_div" align="center">
+                            <label id="calc_text">Calculate optimal dungeonpause <br /><span>(may take a few seconds)</span></label>
+                        </div>
+                        <input type="checkbox" class="checkbox" id="calcopt" onclick="disableOpt()">
+                    </div>
+
                     <div id="calc_button_div" align="center">
                         <button id="calculate" onclick="calc()">Calculate</button>
                     </div>
-                     <div id="calc_text_box_div" align="center">
-                         <div id="calc_text_div" align="center">
-                             <label id="calc_text">Calculate optimal dungeonpause <br /><span>(may take a few seconds)</span></label>
-                         </div>
-                         <input type="checkbox" class="checkbox" id="calcopt" checked>
-                     </div>
+
                 </div>
 
                 <div id="result_div" align="center">

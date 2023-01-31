@@ -9,7 +9,7 @@ body {
     background-color: #333333;
     color: white;
     font-family: sans-serif;
-    font-size:x-large;
+    font-size:3vmin;
 }
 
 #wrapper {
@@ -43,28 +43,28 @@ body {
 }
 
 #calculate {
-    width:400px;
-    height:100px;
-    font-size:larger;    
+    width: 350px;
+    height: 100px;
+    font-size: larger;
+    border-radius: 16px;
 }
 
-#calculate_div {
-    position:relative;
-    margin-top: 40px;    
+#calculate_div {   
+    margin-top: 40px;       
 }
 
 #calc_button_div {
+    margin-right:37%;
     display: inline-block;    
 }
 
 #calc_text_div {
-    display: inline-block;   
+    display: inline-block;     
 }
 
-#calc_text_box_div {
-    position: absolute;
-    margin-left: 50px;
+#calc_text_box_div {    
     margin-top: 20px;
+    margin-right:3%;
     display: inline-block;
 }
 
@@ -77,18 +77,15 @@ body {
 }
 
 #dp_start {
-    font-size:larger;
-    width:75px;
+    font-size:larger;    
 }
 
 #dp_end {
-    font-size: larger;
-    width: 75px;
+    font-size: larger;    
 }
 
 #current_lvl {
-    font-size: larger;
-    width: 75px;
+    font-size: larger;   
 }
 
 #goal_lvl_text {
@@ -96,8 +93,7 @@ body {
 }
 
 #goal_lvl {
-    font-size: larger;
-    width: 75px;
+    font-size: larger;    
 }
 
 #start_end {
@@ -119,8 +115,8 @@ body {
 
 #scrapbook {
     font-size: larger;
-    width: 100px;
     margin-right: 50px;
+    width: 11vmin;
 }
 
 .ind_text {
@@ -134,6 +130,11 @@ body {
     margin-right: 50px;
 }
 
+.input_field {
+    border-radius: 6px;
+    width: 8vmin;
+}
+
 #result_div {
     margin-top: 40px;
 }
@@ -145,6 +146,7 @@ body {
     margin-top:25px;
 }
 #result_opt_div {
-    margin-top:25px;
-    margin-bottom:25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    color: #1f1f1f;
 }

@@ -9,37 +9,48 @@ function calc() {
     let dpend = document.getElementById("dp_end").value;
     let level = document.getElementById("current_lvl").value;
     let goallvl = document.getElementById("goal_lvl").value;
-    //let book = document.getElementById("scrapbook").value;
+    let bookbonus = document.getElementById("scrapbook").value;
     let calendarSkip = document.getElementById("calendar_skip").checked;
     let calendarNormal = document.getElementById("calendar_normal").checked;
     let xpevt = document.getElementById("xpevt").checked;
     let doOpt = document.getElementById("calcopt").checked;
+    let ignDng = document.getElementById("ign_dng").checked;
     let age = 0;    
 
+    //switch start/end if in wrong order
     if (dpend < dpstart) {
         let temp = dpend;
         dpend = dpstart;
         dpstart = temp;
     }
 
+    //switch current/goal level if in wrong order
     if (goallvl < level) {
-        var temp = goallvl;
+        let temp = goallvl;
         goallvl = level;
         level = temp;
     }    
 
+    //levelcap
     if (goallvl > 800) {
         goallvl = 800;
     }
 
-    let book = maxBook - 300 + scrapbookAtLevel[level];
+    var book = 0;
+    //get scrapbook either from input or level
+    if (ignDng) {
+        if (bookbonus < 0) {
+            bookbonus = 0;
+        } else if (bookbonus > 100) {
+            bookbonus = 100;
+        }
+        book = bonusToBook(bookbonus);
 
-    /*if (book < 0) {
-        book = 0;
-    } else if (book > 100) {
-        book = 100;
-    }    
-    */
+    } else {
+        book = getBookFromLevel(level);
+    }
+
+    
 
     var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
     var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
@@ -132,15 +143,17 @@ function disableDungeons() {
         document.getElementById("dp_end").value = 800;
         document.getElementById("dp_start").disabled = true;
         document.getElementById("dp_end").disabled = true;
+        document.getElementById("scrapbook").disabled = false;
     } else {
         document.getElementById("dp_start").disabled = false;
         document.getElementById("dp_end").disabled = false;
+        document.getElementById("scrapbook").disabled = true;
     }
 }
 
 //unchecks calendar_skip if calendar_normal is enabled
 function uncheckSkip() {
-    var checkBox = document.getElementById("calendar_normal");
+    let checkBox = document.getElementById("calendar_normal");
     if (checkBox.checked) {
         document.getElementById("calendar_skip").checked = false;
     }
@@ -148,9 +161,18 @@ function uncheckSkip() {
 
 //unchecks calendar_normal if calendar_skip is enabled
 function uncheckNormal() {
-    var checkBox = document.getElementById("calendar_skip");
+    let checkBox = document.getElementById("calendar_skip");
     if (checkBox.checked) {
         document.getElementById("calendar_normal").checked = false;
+    }
+}
+
+function disableOpt() {
+    let checkBox = document.getElementById("calcopt");
+    if (checkBox.checked) {
+        document.getElementById("result_opt").style.color = "#ffffff";
+    } else {
+        document.getElementById("result_opt").style.color = "#1f1f1f";
     }
 }
 
@@ -169,6 +191,11 @@ function checkXpEvent(age) {
 //collects all daily xp and adds them together, checks for xp event
 function getDailyXp(player) {    
     let guildbonus = getGuildXp(player.age);
+
+    //updates scrapbook if not manually set
+    if (player.dpstart != 0 || player.dpend != 800) {
+        player.book = getBookFromLevel(player.level, player.age, player.clearedDungeonsUntil);
+    }
 
     var total =
         getDailyXpThirst(player.level, player.book, guildbonus) +
@@ -319,6 +346,39 @@ function getDailyXpWheel(level) {
     return 3 * getBigWheel(level);
 }
 
+//returns xp bonus in % from number of pictures
+function bookToBonus(book) {
+    return Math.round(book / maxBook * 10000) / 100;
+}
+
+//returns number of pictures from xp bonus
+function bonusToBook(bonus) {
+    return Math.round(maxBook * bonus/100);
+}
+
+//returns base number of pictures from level and age
+function getBookFromLevel(level, age, dungeonLvl) {
+    let base = 0;
+
+    //estimates for base scrapbook pictures
+    if (level >= 358) {
+        base = 1873;
+    } else if (level < 230) {
+        base = ((level - 200) * 3.3) + 1600;
+    } else if (level >= 230 && level < 275) {
+        base = ((level - 230) * 2) + 1700;
+    } else if (level >= 275 && level < 358) {
+        base = (level - 275) + 1790;
+    }
+
+    //110 seasonal items, equally distributed over the year
+    let seasonal = Math.round(Math.min((age * 110 / 365), 110));
+
+    let dungeons = scrapbookAtLevel[dungeonLvl];
+
+    return base + seasonal + dungeons;
+}
+
 //xp of dungeons possible considering a players level
 function doDungeons(player, write) {    
     if (player.level >= player.dpstart && player.level < player.dpend) {   //still in dungeonpause
@@ -327,8 +387,7 @@ function doDungeons(player, write) {
         let dungeonxp = 0;
         while ((player.level < player.dpstart || player.level >= player.dpend) && player.clearedDungeonsUntil < player.level) {
             player.clearedDungeonsUntil++;
-            let xp = dungeonPerLevel[player.clearedDungeonsUntil];
-            player.book = maxBook - 300 + scrapbookAtLevel[player.level];          
+            let xp = dungeonPerLevel[player.clearedDungeonsUntil];            
             player.addXp(xp, write);            
             dungeonxp += xp;
         }
@@ -433,7 +492,7 @@ function getOptDp(player) {
     let startopt = 0;
     let endopt = 0;
     
-    for (let startlvl = player.level; startlvl < player.goallvl; startlvl++) {
+    for (let startlvl = Math.max(player.level, 200); startlvl < player.goallvl; startlvl++) {
        
        let tempplayer = clone(player);
        tempplayer.dpstart = startlvl;
