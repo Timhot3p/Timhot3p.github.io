@@ -49,11 +49,11 @@
                     <label for="calendar_normal" class="ind_text" id="calendar_normal_text">Normal Calendar</label>
                     <input type="checkbox" class="checkbox" id="calendar_normal" onclick="uncheckSkip()">
 
-                    <label for="calendar_steady" class="ind_text" id="calendar_steady_text">Steady Calendar</label>
-                    <input type="checkbox" class="checkbox" id="calendar_steady" checked>
-
                     <label for="xpevt" class="ind_text" id="xpevt_text">Xp Events</label>
                     <input type="checkbox" class="checkbox" id="xpevt" checked>
+
+                    <label for="steady" class="ind_text" id="steady_text">Steady Xp Gain</label>
+                    <input type="checkbox" class="checkbox" id="steady" checked>
                 </div>
 
                 <div id="calculate_div" align="center">
@@ -73,20 +73,20 @@
 
                 <div id="result_div" align="center">
                     <div id="result_dp_div">
-                        <output id="result_dp" name="result_dp">Result with specified Dungeonpause</output>
+                        <output id="result_dp" name="result_dp">Result with specified dungeonpause</output>
                     </div>
                     <div id="result_normal_div">
-                        <output id="result_normal" name="result_normal">Result without Dungeonpause</output>
+                        <output id="result_normal" name="result_normal">Result without dungeonpause</output>
                     </div>
                     <div id="result_opt_div">
-                        <output id="result_opt" name="result_opt">Result with optimal Dungeonpause</output>
+                        <output id="result_opt" name="result_opt">Result with optimal dungeonpause</output>
                     </div>
                 </div>
             </div>
 
             <div id="output_div">
-                <h2 align="center">Output log</h2>
-                <textarea id="output_log" name="output_log" rows="20" cols="100">Result</textarea>
+                <h2 align="center">Output Log</h2>
+                <textarea readonly id="output_log" name="output_log" rows="20" cols="100" spellcheck="false">Result</textarea>
             </div>
             
 

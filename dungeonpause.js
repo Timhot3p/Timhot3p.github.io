@@ -1,18 +1,19 @@
 const questFactor = 0.84;
 const maxBook = 2283;
+const xpEventRatio = 1.19047619;
 
 function calc() {
 
     document.getElementById("output_log").textContent = "";
     
-    let dpstart = document.getElementById("dp_start").value;   
-    let dpend = document.getElementById("dp_end").value;
-    let level = document.getElementById("current_lvl").value;
-    let goallvl = document.getElementById("goal_lvl").value;
+    let dpstart = Math.round(document.getElementById("dp_start").value);
+    let dpend = Math.round(document.getElementById("dp_end").value);
+    let level = Math.round(document.getElementById("current_lvl").value);
+    let goallvl = Math.round(document.getElementById("goal_lvl").value);
     let bookbonus = document.getElementById("scrapbook").value;
     let calendarSkip = document.getElementById("calendar_skip").checked;
     let calendarNormal = document.getElementById("calendar_normal").checked;
-    let calendarSteady = document.getElementById("calendar_steady").checked;
+    let steady = document.getElementById("steady").checked;
     let xpevt = document.getElementById("xpevt").checked;
     let doOpt = document.getElementById("calcopt").checked;
     let ignDng = document.getElementById("ign_dng").checked;
@@ -32,14 +33,26 @@ function calc() {
         level = temp;
     }    
 
-    //levelcap
+    //levelcaps
     if (goallvl > 800) {
         goallvl = 800;
+    } else if (goallvl < 1) {
+        goallvl = 1;
     }
+    if (level > 800) {
+        level = 800;
+    } else if (level < 1) {
+        level = 1;
+    }
+
+    //guess age    
+    age = getAge(level);    
 
     var book = 0;
     //get scrapbook either from input or level
     if (ignDng) {
+        dpstart = 0;
+        dpend = 800;
         if (bookbonus < 0) {
             bookbonus = 0;
         } else if (bookbonus > 100) {
@@ -48,38 +61,45 @@ function calc() {
         book = bonusToBook(bookbonus);
 
     } else {
-        book = getBookFromLevel(level);
+        book = getBookFromLevel(level, age, level, steady);
     }
 
-    
+    let offset = age;
 
-    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, calendarSteady, xpevt, level);
-    var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, calendarSteady, xpevt, level);
-    var playerOpt = clone(playerNo);
+    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, Math.min(level, dpstart));    
 
-    document.getElementById("output_log").textContent += "Custom Dungeonpause:\n"
+
+    document.getElementById("output_log").textContent += ignDng ? "Without Dungeons:\n" : "Custom Dungeonpause:\n"
     let daysDp = getDays(playerDp, true);
-    document.getElementById("output_log").textContent += "No Dungeonpause:\n"
-    let daysNo = getDays(playerNo, true);
+    document.getElementById("result_dp").textContent = "It will take you " + (daysDp - offset) + " days to reach level " + goallvl + ".";
 
-    if (doOpt) {
-        document.getElementById("output_log").textContent += "Possible Dungeonpauses:\n"
-        var result = getOptDp(playerOpt);
+    if (!ignDng) {
+        var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, Math.min(level, dpstart));
+        var playerOpt = clone(playerNo);
+        document.getElementById("output_log").textContent += "No Dungeonpause:\n"
+        var daysNo = getDays(playerNo, true);
+        document.getElementById("result_normal").textContent = "Without dungeonpause it would take you " + (daysNo - offset) + " days.";
+
+        if (doOpt) {
+            document.getElementById("output_log").textContent += "Possible Dungeonpauses:\n"
+            var result = getOptDp(playerOpt);
+            document.getElementById("result_opt").textContent = "Optimal time to reach level " + goallvl + " would be " + (result.daysopt - offset) + " days, by doing a dungeonpause between level " + result.startopt + " and level " + result.endopt + ".";
+        }
     }
-    
-    document.getElementById("result_dp").textContent = "It will take you " + daysDp + " days to reach level " + goallvl + ".";
-    document.getElementById("result_normal").textContent = "Without dungeonpause it would take you " + daysNo + " days.";    
 
+    
+    
+    /*
     if (doOpt) {        
-        document.getElementById("result_opt").textContent = "Optimal time to reach level " + goallvl + " would be " + result.daysopt + " days, by doing a dungeonpause between level " + result.startopt + " and level " + result.endopt + ".";
         document.getElementById("result_opt").style.color = "#ffffff";
     } else {
         document.getElementById("result_opt").style.color = "#1f1f1f";
     }
+    */
 }
 
 //returns a new player with specified attributes
-function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, calendarSteady, xpevt, clearedDungeonsUntil) {
+function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, clearedDungeonsUntil) {
     return {
         level: level,
         xp: xp,
@@ -89,9 +109,9 @@ function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSki
         goallvl: goallvl,
         book: book,
         calendarSkip: calendarSkip,
-        calendarNormal: calendarNormal,
-        calendarSteady: calendarSteady,
+        calendarNormal: calendarNormal,        
         xpevt: xpevt,
+        steady: steady,
         clearedDungeonsUntil: clearedDungeonsUntil,
         addXp: function (value, write) {
             if (value > 0) {
@@ -100,7 +120,7 @@ function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSki
                     this.xp -= getExperienceRequired(this.level);
                     this.level++;
                     if (write) {
-                        document.getElementById("output_log").textContent += ("Day " + this.age + ": Level " + this.level + "\n");
+                        document.getElementById("output_log").textContent += ("Day " + this.age + ": Level " + this.level + "\n");                       
                     }
                 }
             }
@@ -120,8 +140,8 @@ function clone(player) {
         book: player.book,
         calendarSkip: player.calendarSkip,
         calendarNormal: player.calendarNormal,
-        calendarSteady: player.calendarSteady,
         xpevt: player.xpevt,
+        steady: player.steady,
         clearedDungeonsUntil: player.clearedDungeonsUntil,
         addXp: function (value, write) {
             if (value > 0) {
@@ -140,19 +160,25 @@ function clone(player) {
 
 //disable dungeonpause inputs when "ignore dungeons" is checked
 function disableDungeons() {
-    var checkBox = document.getElementById("ign_dng");
-    if (checkBox.checked) {
-        document.getElementById("dp_start").value = 0;
-        document.getElementById("dp_end").value = 800;
+    var checkBox = document.getElementById("ign_dng");    
+    if (checkBox.checked) {      
         document.getElementById("dp_start").disabled = true;
         document.getElementById("dp_end").disabled = true;
         document.getElementById("scrapbook").disabled = false;
-    } else {
-        document.getElementById("dp_start").value = 370;
-        document.getElementById("dp_end").value = 475;
+        document.getElementById("result_normal").style.color = "#1f1f1f";
+        document.getElementById("result_opt").style.color = "#1f1f1f";
+        document.getElementById("calcopt").disabled = true;
+        document.getElementById("result_dp").textContent = "Result without dungeons";
+    } else {        
         document.getElementById("dp_start").disabled = false;
         document.getElementById("dp_end").disabled = false;
         document.getElementById("scrapbook").disabled = true;
+        document.getElementById("result_normal").style.color = "#ffffff";
+        document.getElementById("calcopt").disabled = false;
+        if (document.getElementById("calcopt").checked) {
+            document.getElementById("result_opt").style.color = "#ffffff";
+        }
+        document.getElementById("result_dp").textContent = "Result with specified dungeonpause";
     }
 }
 
@@ -172,20 +198,10 @@ function uncheckNormal() {
     }
 }
 
+//hides the optimal dungeonpause text when box is checked
 function disableOpt() {
-    let checkBox = document.getElementById("calcopt");
-    if (checkBox.checked) {
-        document.getElementById("result_opt").style.color = "#ffffff";
-    } else {
-        document.getElementById("result_opt").style.color = "#1f1f1f";
-    }
-}
-
-function checkMinValue() {
-    var input = document.getElementById("current_lvl");
-    if (input.value < 200) {
-        input.value = 200;
-    }
+    let checkBox = document.getElementById("calcopt");   
+    document.getElementById("result_opt").style.color = checkBox.checked ? "#ffffff" : "#1f1f1f";      
 }
 
 //checks for a xp event based on data from 2022: 4 xp events inside 9 weeks
@@ -199,7 +215,7 @@ function getDailyXp(player) {
 
     //updates scrapbook if not manually set
     if (player.dpstart != 0 || player.dpend != 800) {
-        player.book = getBookFromLevel(player.level, player.age, player.clearedDungeonsUntil);
+        player.book = getBookFromLevel(player.level, player.age, player.clearedDungeonsUntil, player.steady);
     }
 
     var total =
@@ -210,21 +226,29 @@ function getDailyXp(player) {
         getDailyXpWheel(player.level) +
         getDailyXpGuildfight(player.level);
 
-    if (player.xpevt && checkXpEvent(player.age)) {
-        total *= 2;        
+    if (player.xpevt) {
+        if (player.steady) {
+            total *= xpEventRatio;
+        } else if (checkXpEvent) { 
+            total *= 2;
+        }
     }
 
     total += getDailyXpAdventuromatic(player.level, player.book, guildbonus);
-    total += getXpPets(player.level, player.age);
+    //total += getXpPets(player.level, player.age);
 
-    if (player.calendarSteady && player.calendarSkip) {
-        total += ((152 / 30) / 88) * getExperienceRequired(player.level);
-    } else if (player.calendarSteady && player.calendarNormal) {
-        total += ((394 / 30) / 240) * getExperienceRequired(player.level);
-    } else if (!player.calendarSteady && player.calendarSkip) {
-        total += getDailyXpCalendarSkip(player.level, player.age);
-    } else if (!player.calendarSteady && player.calendarNormal) {
-        total += getDailyXpCalendarNormal(player.level, player.age);
+    if (player.steady) {
+        if (player.calendarSkip) {
+            total += getDailyXpCalendarSkipSteady(player.level);
+        } else {
+            total += getDailyXpCalendarNormalSteady(player.level);
+        }
+    } else {        
+        if (player.calendarSkip) {
+            total += getDailyXpCalendarSkip(player.level, player.age);
+        } else {
+            total += getDailyXpCalendarNormal(player.level, player.age);
+        }
     }
     
     return total;
@@ -288,6 +312,11 @@ function getDailyXpCalendarSkip(level, day) {
     return 0;
 }
 
+//average daily xp from calendar using skip strategy
+function getDailyXpCalendarSkipSteady(level) {
+    return ((152 / 30) / 88) * getExperienceRequired(level);
+}
+
 //daily xp from calendar considering the day without using skip strategy
 function getDailyXpCalendarNormal(level, day) {
     switch (day % 240) {
@@ -328,6 +357,11 @@ function getDailyXpCalendarNormal(level, day) {
     return 0;
 }
 
+//average daily xp from calendar without using skip strategy
+function getDailyXpCalendarNormalSteady(level) {
+    return ((394 / 30) / 240) * getExperienceRequired(player.level);
+}
+
 //Estimates what Hydra you can defeat with which level
 function getHydraByLevel(level) {
     return Math.max(0, Math.floor((level - 300) / 15));
@@ -344,10 +378,9 @@ function getDailyXpGuildfight(level) {
     return (2 * 0.697 * getDailyXpArena(level));
 }
 
-//daily xp of academy ignoring events
+//daily xp of academy ignoring events, mine 20 assumed from the start on
 function getDailyXpAcademy(level) {
-    let hours = 24;
-    return hours * getAcademyValues(level, 20);
+    return 24 * getAcademyValues(level, 20);
 }
 
 //daily xp of wheel ignoring events
@@ -366,7 +399,7 @@ function bonusToBook(bonus) {
 }
 
 //returns base number of pictures from level and age
-function getBookFromLevel(level, age, dungeonLvl) {
+function getBookFromLevel(level, age, dungeonLvl, steady) {
     let base = 0;
 
     //estimates for base scrapbook pictures
@@ -383,9 +416,24 @@ function getBookFromLevel(level, age, dungeonLvl) {
     //110 seasonal items, equally distributed over the year
     let seasonal = Math.round(Math.min((age * 110 / 365), 110));
 
-    let dungeons = scrapbookAtLevel[dungeonLvl];
+    let dungeons = steady ? steadyScrapbook[dungeonLvl] : scrapbookAtLevel[dungeonLvl];
 
     return base + seasonal + dungeons;
+}
+
+//estimates a players age based on his level
+function getAge(level) {
+    if (level == 1) {
+        return 0;
+    } else if (level <= 25) {
+        return 1;
+    } else if (level <= 100) {
+        return 2;
+    } else if (level <= 200) {
+        return 3;
+    } else {
+        return ageFromLevel[level - 201];
+    }
 }
 
 //xp of dungeons possible considering a players level
@@ -396,7 +444,7 @@ function doDungeons(player, write) {
         let dungeonxp = 0;
         while ((player.level < player.dpstart || player.level >= player.dpend) && player.clearedDungeonsUntil < player.level) {
             player.clearedDungeonsUntil++;
-            let xp = dungeonPerLevel[player.clearedDungeonsUntil];            
+            let xp = player.steady ? steadyDungeons[player.clearedDungeonsUntil] : dungeonPerLevel[player.clearedDungeonsUntil];            
             player.addXp(xp, write);            
             dungeonxp += xp;
         }
@@ -438,17 +486,17 @@ function getRemainungXp(player) {
 function getDays(player, write) {
 
     //hardcoded first weekend
-    if (write && player.level < 25) {
+    if (write && player.level < 25 && (player.dpstart >= 25 || player.dpend < 25)) {
         player.level = 25;
         player.age++;
         document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
     }
-    if (write && player.level < 100) {
+    if (write && player.level < 100 && (player.dpstart >= 100 || player.dpend < 100)) {
         player.level = 100;
         player.age++;
         document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
     }
-    if (write && player.level < 200) {
+    if (write && player.level < 200 && (player.dpstart >= 200 || player.dpend < 200)) {
         player.level = 200;
         player.age++;
         player.clearedDungeonsUntil = 199;
@@ -457,14 +505,19 @@ function getDays(player, write) {
 
     //real simulator
     while (player.goallvl > player.level && player.age < 10000) {
-        player.age++;
-        player.addXp(getDailyXp(player), write);
-        doDungeons(player, write);
+        simDaily(player, true);
     }
     if (write) {
         document.getElementById("output_log").textContent += "\n-------------------------------------\n\n";
     }
     return player.age;
+}
+
+//sim daily xp gain
+function simDaily(player, write) {
+    player.age++;
+    player.addXp(getDailyXp(player), write);
+    doDungeons(player, write);
 }
 
 //returns the earliest level you can push dungeons to reach goallvl
@@ -474,9 +527,7 @@ function getEndLvl(player) {
 
     //part before dungeonpause
     while (tempplayer.level < tempplayer.dpstart && tempplayer.age < 10000) {
-        tempplayer.age++;
-        tempplayer.addXp(getDailyXp(tempplayer), false);
-        doDungeons(tempplayer, false);
+        simDaily(tempplayer, false);
     }
 
     let dungeonsplayer = clone(tempplayer);

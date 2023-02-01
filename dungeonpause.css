@@ -54,7 +54,7 @@ body {
 }
 
 #calc_button_div {
-    margin-right:37%;
+    margin-right:27%;
     display: inline-block;    
 }
 
@@ -69,7 +69,7 @@ body {
 }
 
 #calc_text {
-   
+    font-size: 2vmin;
 }
 
 #calcopt {
@@ -114,13 +114,14 @@ body {
 }
 
 #scrapbook {
-    font-size: larger;
+    font-size: 2.5vmin;
     margin-right: 50px;
-    width: 11vmin;
+    width: 8vmin;
 }
 
 .ind_text {
     vertical-align: middle;
+    font-size:2vmin;
 }
 
 .checkbox {
