@@ -12,6 +12,7 @@ function calc() {
     let bookbonus = document.getElementById("scrapbook").value;
     let calendarSkip = document.getElementById("calendar_skip").checked;
     let calendarNormal = document.getElementById("calendar_normal").checked;
+    let calendarSteady = document.getElementById("calendar_steady").checked;
     let xpevt = document.getElementById("xpevt").checked;
     let doOpt = document.getElementById("calcopt").checked;
     let ignDng = document.getElementById("ign_dng").checked;
@@ -52,8 +53,8 @@ function calc() {
 
     
 
-    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
-    var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, level);
+    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, calendarSteady, xpevt, level);
+    var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, calendarSteady, xpevt, level);
     var playerOpt = clone(playerNo);
 
     document.getElementById("output_log").textContent += "Custom Dungeonpause:\n"
@@ -78,7 +79,7 @@ function calc() {
 }
 
 //returns a new player with specified attributes
-function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, clearedDungeonsUntil) {
+function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, calendarSteady, xpevt, clearedDungeonsUntil) {
     return {
         level: level,
         xp: xp,
@@ -89,6 +90,7 @@ function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSki
         book: book,
         calendarSkip: calendarSkip,
         calendarNormal: calendarNormal,
+        calendarSteady: calendarSteady,
         xpevt: xpevt,
         clearedDungeonsUntil: clearedDungeonsUntil,
         addXp: function (value, write) {
@@ -118,6 +120,7 @@ function clone(player) {
         book: player.book,
         calendarSkip: player.calendarSkip,
         calendarNormal: player.calendarNormal,
+        calendarSteady: player.calendarSteady,
         xpevt: player.xpevt,
         clearedDungeonsUntil: player.clearedDungeonsUntil,
         addXp: function (value, write) {
@@ -212,9 +215,13 @@ function getDailyXp(player) {
     total += getDailyXpAdventuromatic(player.level, player.book, guildbonus);
     total += getXpPets(player.level, player.age);
 
-    if (player.calendarSkip) {
+    if (player.calendarSteady && player.calendarSkip) {
+        total += ((152 / 30) / 88) * getExperienceRequired(player.level);
+    } else if (player.calendarSteady && player.calendarNormal) {
+        total += ((394 / 30) / 240) * getExperienceRequired(player.level);
+    } else if (!player.calendarSteady && player.calendarSkip) {
         total += getDailyXpCalendarSkip(player.level, player.age);
-    } else if (player.calendarNormal) {
+    } else if (!player.calendarSteady && player.calendarNormal) {
         total += getDailyXpCalendarNormal(player.level, player.age);
     }
     
