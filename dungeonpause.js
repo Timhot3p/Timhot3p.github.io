@@ -148,6 +148,8 @@ function disableDungeons() {
         document.getElementById("dp_end").disabled = true;
         document.getElementById("scrapbook").disabled = false;
     } else {
+        document.getElementById("dp_start").value = 370;
+        document.getElementById("dp_end").value = 475;
         document.getElementById("dp_start").disabled = false;
         document.getElementById("dp_end").disabled = false;
         document.getElementById("scrapbook").disabled = true;
