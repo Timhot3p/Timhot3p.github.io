@@ -85,17 +85,7 @@ function calc() {
             var result = getOptDp(playerOpt);
             document.getElementById("result_opt").textContent = "Optimal time to reach level " + goallvl + " would be " + (result.daysopt - offset) + " days, by doing a dungeonpause between level " + result.startopt + " and level " + result.endopt + ".";
         }
-    }
-
-    
-    
-    /*
-    if (doOpt) {        
-        document.getElementById("result_opt").style.color = "#ffffff";
-    } else {
-        document.getElementById("result_opt").style.color = "#1f1f1f";
-    }
-    */
+    }  
 }
 
 //returns a new player with specified attributes
@@ -229,7 +219,7 @@ function getDailyXp(player) {
     if (player.xpevt) {
         if (player.steady) {
             total *= xpEventRatio;
-        } else if (checkXpEvent) { 
+        } else if (checkXpEvent(player.age)) { 
             total *= 2;
         }
     }
@@ -359,7 +349,7 @@ function getDailyXpCalendarNormal(level, day) {
 
 //average daily xp from calendar without using skip strategy
 function getDailyXpCalendarNormalSteady(level) {
-    return ((394 / 30) / 240) * getExperienceRequired(player.level);
+    return ((394 / 30) / 240) * getExperienceRequired(level);
 }
 
 //Estimates what Hydra you can defeat with which level
@@ -414,11 +404,11 @@ function getBookFromLevel(level, age, dungeonLvl, steady) {
     }
 
     //110 seasonal items, equally distributed over the year
-    let seasonal = Math.round(Math.min((age * 110 / 365), 110));
+    let seasonal = Math.min((age * 110 / 365), 110);
 
     let dungeons = steady ? steadyScrapbook[dungeonLvl] : scrapbookAtLevel[dungeonLvl];
 
-    return base + seasonal + dungeons;
+    return Math.round(base + seasonal + dungeons);
 }
 
 //estimates a players age based on his level
@@ -437,20 +427,18 @@ function getAge(level) {
 }
 
 //xp of dungeons possible considering a players level
-function doDungeons(player, write) {    
-    if (player.level >= player.dpstart && player.level < player.dpend) {   //still in dungeonpause
-        return 0;
-    } else {                                                               //not in dungeonpause
-        let dungeonxp = 0;
-        while ((player.level < player.dpstart || player.level >= player.dpend) && player.clearedDungeonsUntil < player.level) {
-            player.clearedDungeonsUntil++;
-            let xp = player.steady ? steadyDungeons[player.clearedDungeonsUntil] : dungeonPerLevel[player.clearedDungeonsUntil];            
-            player.addXp(xp, write);            
-            dungeonxp += xp;
-        }
-        return dungeonxp;
+
+function doDungeons(player, write) {                                                      
+    let dungeonxp = 0;
+
+    while ((player.level < player.dpstart || player.level >= player.dpend) && player.clearedDungeonsUntil < player.level) {
+        player.clearedDungeonsUntil++;
+        let xp = player.steady ? steadyDungeons[player.clearedDungeonsUntil] : dungeonPerLevel[player.clearedDungeonsUntil];       
+        player.addXp(xp, write);
+        dungeonxp += xp;
     }
-    return 0;
+
+    return dungeonxp;   
 }
 
 //xp of pet dungeons possible considering players age, scaled to players level
@@ -486,26 +474,32 @@ function getRemainungXp(player) {
 function getDays(player, write) {
 
     //hardcoded first weekend
-    if (write && player.level < 25 && (player.dpstart >= 25 || player.dpend < 25)) {
+    if (player.level < 25 && (player.dpstart >= 25 || player.dpend < 25)) {
         player.level = 25;
         player.age++;
-        document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+        if (write) {
+            document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+        }
     }
-    if (write && player.level < 100 && (player.dpstart >= 100 || player.dpend < 100)) {
+    if (player.level < 100 && (player.dpstart >= 100 || player.dpend < 100)) {
         player.level = 100;
         player.age++;
-        document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+        if (write) {
+            document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+        }
     }
-    if (write && player.level < 200 && (player.dpstart >= 200 || player.dpend < 200)) {
+    if (player.level < 200 && (player.dpstart >= 200 || player.dpend < 200)) {
         player.level = 200;
         player.age++;
         player.clearedDungeonsUntil = 199;
-        document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+        if (write) {
+            document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+        }
     }
 
     //real simulator
     while (player.goallvl > player.level && player.age < 10000) {
-        simDaily(player, true);
+        simDaily(player, write);
     }
     if (write) {
         document.getElementById("output_log").textContent += "\n-------------------------------------\n\n";
@@ -533,7 +527,6 @@ function getEndLvl(player) {
     let dungeonsplayer = clone(tempplayer);
     dungeonsplayer.dpend = 0;
     let possibleXp = doDungeons(dungeonsplayer, false);
-
     //part during dungeonpause
     while ((possibleXp < getRemainungXp(tempplayer)) && tempplayer.age < 10000) {
         tempplayer.age++;        
@@ -552,7 +545,7 @@ function getOptDp(player) {
     let startopt = 0;
     let endopt = 0;
     
-    for (let startlvl = Math.max(player.level, 200); startlvl < player.goallvl; startlvl++) {
+    for (let startlvl = Math.max(player.level, 250); startlvl < Math.min(player.goallvl, 451); startlvl++) {
        
        let tempplayer = clone(player);
        tempplayer.dpstart = startlvl;

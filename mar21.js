@@ -395,18 +395,6 @@ const ExperienceRequired = [
     1500000000
 ];
 
-function getAcademyValues(level, academy) {
-    let xp = getExperienceRequired(level);
-    let multiplier = 1.5 + 0.75 * (level - 1);
-    let base = xp / multiplier;
-    let hbase = (base / 30) / Math.max(1, Math.exp(30090.33 / 5000000 * (level - 99)));
-    let hourly = academy * hbase;
-    //let capacity = academy * getAcademyMultiplier(academy) * hbase;
-    //let time = capacity / hourly;
-
-    return hourly;
-}
-
 function getAcademyMultiplier(m) {
     if (m <= 1) {
         return 1;
@@ -442,35 +430,46 @@ function getExperienceRequired(value) {
     }
 }
 
+function baseXp(level) {
+    return getExperienceRequired(level) / (0.75 * (level + 1));
+}
+
+function curve(level) {
+    return baseXp(level) / Math.max(1, Math.exp(30090.33 / 5000000 * (level - 99)));
+}
+
+function getAcademyValues(level, academy) {    
+    let hbase = curve(level) / 30;
+    let hourly = academy * hbase;
+
+    return hourly;
+}
+
 function getMaxXp(level, bookTotal, gxp) {
-    let book = 100 * bookTotal / maxBook;
+    let book = bookTotal / maxBook;
     let rxp = 10;
-    var basexp = getExperienceRequired(level) / (1.5 + 0.75 * (level - 1));
-    var xpmin = (1 + rxp / 100) * (1 + gxp / 100 + book / 100) * basexp / 11 / Math.max(1, Math.exp(30090.33 / 5000000 * (level - 99)));
+    var xpmin = (1 + rxp / 100) * (1 + gxp / 100 + book) * curve(level) / 11;
     var xpmax = xpmin * 5;
+
     return xpmax;
 }
 
-function getBigWheel(level) {
-    var xp = getExperienceRequired(level);
-    var multiplier = 1.5 + 0.75 * (level - 1);
-    var base = xp / multiplier;
-    var wheel = Math.trunc(base / Math.max(1, Math.exp(30090.33 / 5000000 * (level - 99))));
+function getBigWheel(level) {   
+    var wheel = Math.trunc(curve(level));
+
     return wheel;
 }
 
 function getArenaXp(level) {
-    var xp = getExperienceRequired(level);
-    var multiplier = 1.5 + 0.75 * (level - 1);
-    var base = xp / multiplier;
+    var base = baseXp(level);
     var arena = base / 10;
+
     return arena;
 }
 
 function getHydraXp(level, hydra) {
-    var xp = getExperienceRequired(level);
-    var multiplier = 1.5 + 0.75 * (level - 1);
-    var base = xp / multiplier;
+    var base = baseXp(level);
     var daily = (1 + 0.25 * hydra) * base;
+
     return daily;
 }
