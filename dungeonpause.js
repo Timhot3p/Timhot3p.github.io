@@ -7,7 +7,7 @@ function calc() {
     document.getElementById("output_log").textContent = "";
     
     let dpstart = Math.round(document.getElementById("dp_start").value);
-    let dpend = Math.round(document.getElementById("dp_end").value);
+    let dpend = document.getElementById("dp_end").value;
     let level = Math.round(document.getElementById("current_lvl").value);
     let goallvl = Math.round(document.getElementById("goal_lvl").value);
     let bookbonus = document.getElementById("scrapbook").value;
@@ -426,12 +426,16 @@ function getAge(level) {
     }
 }
 
-//xp of dungeons possible considering a players level
+//transforms level + xp into level with decimal point
+function getDecimalLevel(level, xp) {
+    return level + (xp / getExperienceRequired(level))
+}
 
+//xp of dungeons possible considering a players level
 function doDungeons(player, write) {                                                      
     let dungeonxp = 0;
-
-    while ((player.level < player.dpstart || player.level >= player.dpend) && player.clearedDungeonsUntil < player.level) {
+    
+    while ((player.level < player.dpstart || getDecimalLevel(player.level, player.xp) >= player.dpend) && player.clearedDungeonsUntil < player.level) {
         player.clearedDungeonsUntil++;
         let xp = player.steady ? steadyDungeons[player.clearedDungeonsUntil] : dungeonPerLevel[player.clearedDungeonsUntil];       
         player.addXp(xp, write);
@@ -534,9 +538,9 @@ function getEndLvl(player) {
         dungeonsplayer = clone(tempplayer);
         dungeonsplayer.dpend = 0;
         possibleXp = doDungeons(dungeonsplayer, false);
-    }
+    }   
 
-    return tempplayer.level;
+    return getDecimalLevel(tempplayer.level, tempplayer.xp);
 }
 
 //returns the number of days to reach a lvl with optimal dp
@@ -551,7 +555,7 @@ function getOptDp(player) {
        tempplayer.dpstart = startlvl;
        tempplayer.dpend = getEndLvl(tempplayer);
        let days = getDays(tempplayer, false);
-       document.getElementById("output_log").textContent += tempplayer.dpstart + " - " + tempplayer.dpend + ", " + days + " Days\n";
+       document.getElementById("output_log").textContent += tempplayer.dpstart + " - " + Math.floor(tempplayer.dpend) + ", " + days + " Days\n";
     
        if (days <= daysopt) {
            daysopt = days;
@@ -562,9 +566,10 @@ function getOptDp(player) {
 
     player.dpstart = startopt;
     player.dpend = endopt;
-    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nOptimal: " + startopt + " - " + endopt + " in " + daysopt + " Days:" + "\n";
+    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nOptimal: " + startopt + " - " + Math.round(100 * endopt)/100 + " in " + daysopt + " Days:" + "\n";
     getDays(player, true);
 
+    endopt = Math.floor(endopt);
     return {
         daysopt: daysopt,
         startopt: startopt,
