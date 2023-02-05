@@ -1,3 +1,5 @@
+//code and functions in here are alomst directly copied from https://sftools.mar21.eu/attributes.html Full credits to mar21
+
 const ExperienceRequired = [
     0,
     400,
@@ -395,6 +397,14 @@ const ExperienceRequired = [
     1500000000
 ];
 
+function getExperienceRequired(value) {
+    if (value >= 393) {
+        return 1500000000;
+    } else {
+        return ExperienceRequired[value];
+    }
+}
+
 function getAcademyMultiplier(m) {
     if (m <= 1) {
         return 1;
@@ -419,14 +429,6 @@ function getAcademyMultiplier(m) {
         case 17: return 10.4;
         case 18: return 10.8;
         case 19: return 11.2;
-    }
-}
-
-function getExperienceRequired(value) {
-    if (value >= 393) {
-        return 1500000000;
-    } else {
-        return ExperienceRequired[value];
     }
 }
 
@@ -472,4 +474,10 @@ function getHydraXp(level, hydra) {
     var daily = (1 + 0.25 * hydra) * base;
 
     return daily;
+}
+
+function getPetXp(level) {    
+    var habitat = 6 * (curve(level) / 30) * (0.75 * (level + 1));
+
+    return habitat
 }

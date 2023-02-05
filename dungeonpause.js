@@ -1,4 +1,4 @@
-const questFactor = 0.84;
+const questFactor = 0.85;
 const maxBook = 2283;
 const xpEventRatio = 1.19047619;
 
@@ -213,8 +213,7 @@ function getDailyXp(player) {
         getDailyXpAcademy(player.level) +
         getDailyXpArena(player.level) +
         getDailyXpMission(player.level) +
-        getDailyXpWheel(player.level) +
-        getDailyXpGuildfight(player.level);
+        getDailyXpWheel(player.level);
 
     if (player.xpevt) {
         if (player.steady) {
@@ -224,8 +223,10 @@ function getDailyXp(player) {
         }
     }
 
+    //xp sources that don't get affected by xp event
+    total += getDailyXpGuildfight(player.level);
     total += getDailyXpAdventuromatic(player.level, player.book, guildbonus);
-    //total += getXpPets(player.level, player.age);
+    total += getXpPets(player.level, player.age);
 
     if (player.steady) {
         if (player.calendarSkip) {
@@ -576,3 +577,23 @@ function getOptDp(player) {
         endopt: endopt
     };
 }
+
+/*
+function average(iterations) {
+    var min = 0.2;
+    var max = 1;
+
+    var total = 0;
+    for (let i = 0; i < iterations; i++) {
+        let a = Math.random() * (max - min) + min;
+        let b = Math.random() * (max - min) + min;
+        let c = Math.random() * (max - min) + min;
+        let m = Math.max(a, b, c);
+        total += m;
+    }
+    total /= iterations;
+    return total;    
+}
+*/
+
+  
