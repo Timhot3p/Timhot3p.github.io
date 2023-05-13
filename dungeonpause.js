@@ -250,10 +250,9 @@ function getDailyXpThirst(level, book, guild) {
     let smallsegmet = 2.5;
     let thirstbase = 320;
 
-    let bonusred = 5;         //estimated bonus thirst for red quests
-    let bonuslast = 5;        //estimated bonus thirst for last beer quests
+    let bonuslast = 10;        //estimated bonus thirst for last beer quests
 
-    let thirst = thirstbase + bonusred + bonuslast;
+    let thirst = thirstbase + bonuslast;
 
     return thirst * (questFactor / smallsegmet) * getMaxXp(level, book, guild);    
 }
@@ -364,9 +363,8 @@ function getDailyXpMission(level) {
 }
 
 //daily xp of the guild fight ignoring events
-//very inacurate formula
-function getDailyXpGuildfight(level) {   
-    return (2 * 0.697 * getDailyXpArena(level));
+function getDailyXpGuildfight(level) {
+    return 2 * Math.floor((45 / 64) * baseXp(level + 4));
 }
 
 //daily xp of academy ignoring events, mine 20 assumed from the start on
@@ -576,24 +574,4 @@ function getOptDp(player) {
         startopt: startopt,
         endopt: endopt
     };
-}
-
-/*
-function average(iterations) {
-    var min = 0.2;
-    var max = 1;
-
-    var total = 0;
-    for (let i = 0; i < iterations; i++) {
-        let a = Math.random() * (max - min) + min;
-        let b = Math.random() * (max - min) + min;
-        let c = Math.random() * (max - min) + min;
-        let m = Math.max(a, b, c);
-        total += m;
-    }
-    total /= iterations;
-    return total;    
-}
-*/
-
-  
+} 
