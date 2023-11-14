@@ -54,7 +54,7 @@ body {
 }
 
 #calc_button_div {
-    margin-right:27%;
+    margin-right:20%;
     display: inline-block;    
 }
 
@@ -112,6 +112,12 @@ body {
     margin-left: 50px;
 }
 
+#ignore {
+    color:orange;
+    margin-right:100px;
+    margin-left:0px;
+}
+
 #individualise_div {
     margin-top: 25px;
     height: 50px;
@@ -154,3 +160,54 @@ body {
     margin-top: 25px;
     margin-bottom: 25px;    
 }
+
+/* From w3schools */
+/* Tooltip container */
+.tooltip {    
+    color:orange;
+    position: relative;
+    display: inline-block;    
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom: 1px dotted black;
+}
+
+    /* Tooltip text */
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        font-size:large;
+        width: fit-content;
+        background-color: white;
+        color: orange;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        /*left: 0%;*/
+        margin-left: -100px;
+        margin-right: -100px;
+        /* Fade in tooltip */
+        opacity: 0;
+        /*transition: opacity 0.3s;*/
+    }
+
+        /* Tooltip arrow */
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }

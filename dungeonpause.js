@@ -83,7 +83,7 @@ function calc() {
         if (doOpt) {
             document.getElementById("output_log").textContent += "Possible Dungeonpauses:\n"
             var result = getOptDp(playerOpt);
-            document.getElementById("result_opt").textContent = "Optimal time to reach level " + goallvl + " would be " + (result.daysopt - offset) + " days, by doing a dungeonpause between level " + result.startopt + " and level " + result.endopt + ".";
+            document.getElementById("result_opt").textContent = "Fastest time to reach level " + goallvl + " would be " + (result.daysopt - offset) + " days, by doing a dungeonpause between level " + result.startopt + " and level " + result.endopt + ".";
         }
     }  
 }
@@ -565,7 +565,7 @@ function getOptDp(player) {
 
     player.dpstart = startopt;
     player.dpend = endopt;
-    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nOptimal: " + startopt + " - " + Math.round(100 * endopt)/100 + " in " + daysopt + " Days:" + "\n";
+    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nFastest: " + startopt + " - " + Math.round(100 * endopt)/100 + " in " + daysopt + " Days:" + "\n";
     getDays(player, true);
 
     endopt = Math.floor(endopt);

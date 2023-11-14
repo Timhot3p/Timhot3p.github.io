@@ -22,6 +22,11 @@
 
                 <div id="start_end" align="center">
 
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Ignore this row if you only want to know optimal dp</span>
+                    </div>
+
                     <label for="dp_start">From Level</label>
                     <input type="number" class="input_field" id="dp_start" min="200" max="800" value="370">
                     <label for="dp_end">to</label>
@@ -29,18 +34,29 @@
 
                     <label for="ign_dng" id="ign_dng_text">Ignore Dungeons</label>
                     <input type="checkbox" class="checkbox" id="ign_dng" onclick="disableDungeons()">
+
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Will turn this into a daily xp simulator. sfsimulator.xyz might be more accurate </span>
+                    </div>
                 </div>
 
-                <h3 align="center">Enter your current level and the level you want to reach:</h3>
+                <h3 align="center">Enter your start level and the level you want to reach:</h3>
 
                 <div id="goal_div" align="center">
-                    <label for="current_lvl" id="current_lvl_text">Current Level:</label>
+                    <label for="current_lvl" id="current_lvl_text">Start Level:</label>
                     <input type="number" class="input_field" id="current_lvl" min="1" max="800" value="1">
                     <label for="goal_lvl" id="goal_lvl_text">Goal Level:</label>
                     <input type="number" class="input_field" id="goal_lvl" min="200" max="800" value="500">
                 </div>
 
                 <div id="individualise_div" align="center">
+
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Scrapbook will be estimated according to your level and dungeon progress, unless you tick "Ignore Dungeons"</span>
+                    </div>
+
                     <label for="scrapbook" class="ind_text">Scrapbook:</label>
                     <input type="number" class="input_field" id="scrapbook" min="0" max="100" value="96" disabled="disabled">
 
@@ -55,6 +71,10 @@
 
                     <label for="steady" class="ind_text" id="steady_text">Steady Xp Gain</label>
                     <input type="checkbox" class="checkbox" id="steady" checked>
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">This setting will smooth out your daily xp gain</span>
+                    </div>
                 </div>
 
                 <div id="calculate_div" align="center">
@@ -68,6 +88,11 @@
 
                     <div id="calc_button_div" align="center">
                         <button id="calculate" onclick="calc()">Calculate</button>
+                    </div>
+
+                    <div class="tooltip">
+                        ?
+                        <span class="tooltiptext">Calculations are based on estimated daily xp gains, using formulas from sftools.</span>
                     </div>
 
                 </div>
