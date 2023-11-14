@@ -88,6 +88,10 @@ body {
     font-size: larger;   
 }
 
+#credits {
+    color:gold;
+}
+
 #goal_lvl_text {
     margin-left: 50px;
 }

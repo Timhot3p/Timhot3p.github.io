@@ -574,4 +574,4 @@ function getOptDp(player) {
         startopt: startopt,
         endopt: endopt
     };
-} 
+}
