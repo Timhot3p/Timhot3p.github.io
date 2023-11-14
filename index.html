@@ -111,7 +111,14 @@
             </div>
 
             <div id="output_div">
-                <h2 align="center">Output Log</h2>
+
+                <div class="tooltip" style="margin-left:5%">
+                    ?
+                    <span class="tooltiptext" style="top: 0%; bottom:-700%; margin-left: -300px; margin-right: 50px;">First 3 days are hardcoded to level 25, 100 and 200. 
+                    If multiple Dp's have the same time, the latest is taken as optimal. Dp's are always calculated until you can push to your goal level. 
+                    If your current level > Dp start, it will assume you still have those dungeons saved for further calculations.</span>
+                </div>
+                <label id="output_log_text" align="center">Output Log</label>
                 <textarea readonly id="output_log" name="output_log" rows="20" cols="100" spellcheck="false">Result</textarea>
             </div>
             

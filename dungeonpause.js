@@ -46,7 +46,9 @@ function calc() {
     }
 
     //guess age    
-    age = getAge(level);    
+    age = getAge(level);
+    //Pushed Dungeons until
+    let dungeonlevel = Math.min(level, dpstart - 1);
 
     var book = 0;
     //get scrapbook either from input or level
@@ -61,12 +63,12 @@ function calc() {
         book = bonusToBook(bookbonus);
 
     } else {
-        book = getBookFromLevel(level, age, level, steady);
+        book = getBookFromLevel(level, age, dungeonlevel, steady);
     }
 
     let offset = age;
 
-    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, Math.min(level, dpstart));    
+    var playerDp = getNewPlayer(level, 0, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, dungeonlevel, offset);
 
 
     document.getElementById("output_log").textContent += ignDng ? "Without Dungeons:\n" : "Custom Dungeonpause:\n"
@@ -74,7 +76,7 @@ function calc() {
     document.getElementById("result_dp").textContent = "It will take you " + (daysDp - offset) + " days to reach level " + goallvl + ".";
 
     if (!ignDng) {
-        var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, Math.min(level, dpstart));
+        var playerNo = getNewPlayer(level, 0, age, 0, 0, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, dungeonlevel, offset);
         var playerOpt = clone(playerNo);
         document.getElementById("output_log").textContent += "No Dungeonpause:\n"
         var daysNo = getDays(playerNo, true);
@@ -89,7 +91,7 @@ function calc() {
 }
 
 //returns a new player with specified attributes
-function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, clearedDungeonsUntil) {
+function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSkip, calendarNormal, xpevt, steady, clearedDungeonsUntil, offset) {
     return {
         level: level,
         xp: xp,
@@ -103,6 +105,7 @@ function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSki
         xpevt: xpevt,
         steady: steady,
         clearedDungeonsUntil: clearedDungeonsUntil,
+        offset: offset,
         addXp: function (value, write) {
             if (value > 0) {
                 this.xp += value;
@@ -110,7 +113,7 @@ function getNewPlayer(level, xp, age, dpstart, dpend, goallvl, book, calendarSki
                     this.xp -= getExperienceRequired(this.level);
                     this.level++;
                     if (write) {
-                        document.getElementById("output_log").textContent += ("Day " + this.age + ": Level " + this.level + "\n");                       
+                        document.getElementById("output_log").textContent += ("Day " + (this.age - this.offset) + ": Level " + this.level + "\n");                       
                     }
                 }
             }
@@ -133,6 +136,7 @@ function clone(player) {
         xpevt: player.xpevt,
         steady: player.steady,
         clearedDungeonsUntil: player.clearedDungeonsUntil,
+        offset: player.offset,
         addXp: function (value, write) {
             if (value > 0) {
                 this.xp += value;
@@ -140,7 +144,7 @@ function clone(player) {
                     this.xp -= getExperienceRequired(this.level);
                     this.level++;
                     if (write) {
-                        document.getElementById("output_log").textContent += ("Day " + this.age + ": Level " + this.level + "\n");
+                        document.getElementById("output_log").textContent += ("Day " + (this.age - this.offset) + ": Level " + this.level + "\n");
                     }
                 }
             }
@@ -481,14 +485,14 @@ function getDays(player, write) {
         player.level = 25;
         player.age++;
         if (write) {
-            document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+            document.getElementById("output_log").textContent += ("Day " + (player.age - player.offset) + ": Level " + player.level + "\n");
         }
     }
     if (player.level < 100 && (player.dpstart >= 100 || player.dpend < 100)) {
         player.level = 100;
         player.age++;
         if (write) {
-            document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+            document.getElementById("output_log").textContent += ("Day " + (player.age - player.offset) + ": Level " + player.level + "\n");
         }
     }
     if (player.level < 200 && (player.dpstart >= 200 || player.dpend < 200)) {
@@ -496,7 +500,7 @@ function getDays(player, write) {
         player.age++;
         player.clearedDungeonsUntil = 199;
         if (write) {
-            document.getElementById("output_log").textContent += ("Day " + player.age + ": Level " + player.level + "\n");
+            document.getElementById("output_log").textContent += ("Day " + (player.age - player.offset) + ": Level " + player.level + "\n");
         }
     }
 
@@ -547,14 +551,17 @@ function getOptDp(player) {
     let daysopt = 10000;
     let startopt = 0;
     let endopt = 0;
+
+    let startCalc = Math.max(player.level, 250)
+    let endCalc = Math.min((startCalc + 250), player.goallvl);
     
-    for (let startlvl = Math.max(player.level, 250); startlvl < Math.min(player.goallvl, 451); startlvl++) {
+    for (let startlvl = startCalc; startlvl < endCalc; startlvl++) {
        
        let tempplayer = clone(player);
        tempplayer.dpstart = startlvl;
        tempplayer.dpend = getEndLvl(tempplayer);
        let days = getDays(tempplayer, false);
-       document.getElementById("output_log").textContent += tempplayer.dpstart + " - " + Math.floor(tempplayer.dpend) + ", " + days + " Days\n";
+       document.getElementById("output_log").textContent += tempplayer.dpstart + " - " + Math.floor(tempplayer.dpend) + ", " + (days - tempplayer.offset) + " Days\n";
     
        if (days <= daysopt) {
            daysopt = days;
@@ -565,7 +572,7 @@ function getOptDp(player) {
 
     player.dpstart = startopt;
     player.dpend = endopt;
-    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nFastest: " + startopt + " - " + Math.round(100 * endopt)/100 + " in " + daysopt + " Days:" + "\n";
+    document.getElementById("output_log").textContent += "\n-------------------------------------\n\nFastest: " + startopt + " - " + Math.round(100 * endopt)/100 + " in " + (daysopt - player.offset) + " Days:" + "\n";
     getDays(player, true);
 
     endopt = Math.floor(endopt);
